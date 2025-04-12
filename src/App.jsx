@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Navbar } from './components';
+import { Login, Main, Navbar, Register } from './components';
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -8,9 +8,10 @@ function App() {
   console.log(count);
   return (
     <div className="App">
-     <h1>count: {count}</h1>
+     <Navbar />
      <Routes>
-      <Route path="/" element={<Navbar />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Main />} />
      </Routes>
     </div>
   );
