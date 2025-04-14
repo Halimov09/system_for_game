@@ -1,3 +1,9 @@
 export {default as Navbar} from './navbar';
 export {default as Login} from './login';
 export {default as Main} from './main';
+export {default as Toolbar} from './toolbar';
+export {default as Bolimlar} from './bolimlar.jsx';
+export {default as MainTool} from './maintool.jsx';
+export {default as Honalar} from './honalar.jsx';
+export {default as Ombor} from './ombor.jsx';
+export {default as Hisobotlar} from './hisobotlar.jsx';
