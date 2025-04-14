@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Login, Main, Navbar, Register } from './components';
+import { Bolimlar, Hisobotlar, Honalar, Login, Main, Navbar, Ombor, Register } from './components';
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -9,9 +9,13 @@ function App() {
   return (
     <div className="App">
      <Navbar />
+     <Main/>
      <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/" element={<Main />} />
+      <Route path="/Bo'limlar" element={<Bolimlar />} />
+      <Route path="/Honalar" element={<Honalar />} />
+      <Route path="/Ombor" element={<Ombor />} />
+      <Route path="/Hisobotlar" element={<Hisobotlar />} />
      </Routes>
     </div>
   );
