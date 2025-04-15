@@ -60,13 +60,21 @@ a, h1, h2, h3, h4, h5, h6, p{
 }
 
 .login{
-    max-width: 400px;
-    margin: 0 auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     padding: 40px 20px;
+    height: 100vh;
     text-align: center;
     gap: 10px;
     border-radius: 10px;
     background-color: rgb(31 41 55);
+}
+
+.form_login{
+    width: 30%;
+    margin: 0 auto;
 }
 
 form{
@@ -192,6 +200,10 @@ input{
         width: 100%;
         flex-direction: column;
         position: relative;
+    }
+
+    .form_login{
+        width: 100%;
     }
 
     .toolbar{

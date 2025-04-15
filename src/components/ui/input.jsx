@@ -1,12 +1,20 @@
-import React from 'react'
+import React from 'react';
 
-const Input = ({label}) => {
+const Input = ({ label, value, onChange, name }) => {
   return (
     <div>
-        <label htmlFor="email"></label>
-        <input type={label} id='email' placeholder={label} name='email' required />
+      <label htmlFor={name}>{label}</label>
+      <input
+        type={label}
+        id={name}
+        placeholder={label}
+        name={name}
+        required
+        value={value}
+        onChange={onChange}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default Input
+export default Input;
