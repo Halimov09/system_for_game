@@ -5,8 +5,14 @@ const Main = () => {
   const [show, setShow] = useState(true)
 
   const handleToggle = () => {
-    setShow(!show)
-  }
+    setShow(prev => !prev);
+  };
+
+  const handleToolbarLinkClick = () => {
+    if (window.innerWidth < 768) {
+      setShow(false); 
+    }
+  };
 
   return (
     <div className='main'>
@@ -16,7 +22,7 @@ const Main = () => {
       </span>
       </div>
       <div style={{ display: show ? 'block' : 'none' }}>
-        <Toolbar handleToggle={handleToggle} />
+        <Toolbar onLinkClick={handleToolbarLinkClick} />
       </div>
     </div>
   )
