@@ -17,7 +17,7 @@ const Main = () => {
   return (
     <div className='main'>
       <div className="toogle_section">
-      <span onClick={handleToggle} class="material-symbols-outlined toggle_btn">
+      <span onClick={handleToggle} className="material-symbols-outlined toggle_btn">
         menu
       </span>
       </div>

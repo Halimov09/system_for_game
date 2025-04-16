@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { logo } from './constants';
 import { Input } from './ui';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUserStart } from '../slice/auth';
 
 const Login = () => {
   const [show, setShow] = useState(true);
@@ -19,16 +21,20 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(loginUserStart())
     console.log('Form data:', formData);
     setFormData({
       email: '',
       password: ''
     })
-    setShow(false);
+    // setShow(false);
     // bu yerda formani yuborish funksiyasi yozildi
   };
 
-
+  // auth reduxni chaqirish uchun
+  const dispatch = useDispatch()
+  const {isLoading} = useSelector(state => state.auth)
+  console.log(isLoading)
 
   return (
     <div className='login ' style={{ display: show ? 'block' : 'none' }}>
@@ -38,17 +44,23 @@ const Login = () => {
         <Input
           label="email"
           name="email"
+          type="email"
           value={formData.email}
           onChange={handleChange}
         />
         <Input
           label="password"
           name="password"
+          type="password"
           value={formData.password}
           onChange={handleChange}
         />
 
-        <button className='kirish_btn'>KIRISH</button>
+        <button style={
+          {pointerEvents: isLoading ? 'none' : 'auto',
+           opacity: isLoading ? 0.5 : 1,}} className='kirish_btn'>
+            {isLoading ? "ILTIMOS KUTING..." : "KIRISH"}
+        </button>
       </form>
     </div>
   );
