@@ -16,6 +16,7 @@ function App() {
       <Route path="/Honalar" element={<Honalar />} />
       <Route path="/Ombor" element={<Ombor />} />
       <Route path="/Hisobotlar" element={<Hisobotlar />} />
+      <Route path="/Registironlyfordeveloper" element={<Register />} />
      </Routes>
     </div>
   );

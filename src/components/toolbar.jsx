@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { LinkMenu } from './ui'
+import { LinkMenu } from '../ui'
 
 const Toolbar = ({onLinkClick}) => {
   return (

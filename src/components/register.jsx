@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { logo } from '../constants';
-import { Input } from '../ui';
+import { useState } from 'react'
+import { RegisterUserFailure, RegisterUserStart, RegisterUserSucces } from '../slice/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUserStart } from '../slice/auth';
+import { Input } from '../ui';
+import { logo } from '../constants';
+import authService from '../service/auth';
 
-const Login = () => {
+const Register = () => {
   const [show, setShow] = useState(true);
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: ''
   });
 
@@ -19,16 +20,27 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUserStart())
+   
+    dispatch(RegisterUserStart())
+    const user = {
+      username: formData.username,
+      password: formData.password
+    }
+    try{
+        const response = await authService.register(user)
+        dispatch(RegisterUserSucces())
+        alert(response.data.message)
+    }catch (error) {
+        dispatch(RegisterUserFailure())
+    }
+
     console.log('Form data:', formData);
     setFormData({
-      email: '',
+      username: '',
       password: ''
     })
-    // setShow(false);
-    // bu yerda formani yuborish funksiyasi yozildi
   };
 
   // auth reduxni chaqirish uchun
@@ -39,13 +51,13 @@ const Login = () => {
   return (
     <div className='login ' style={{ display: show ? 'block' : 'none' }}>
       <img src={logo} alt="logo" />
-      <h2 className='h2_login'>Ro'yhatdan o'tish</h2>
+      <h2 className='h2_login'>Kompaniyani roýhatdan o'tkazish</h2>
       <form className='form_login' onSubmit={handleSubmit}>
         <Input
-          label="email"
-          name="email"
-          type="email"
-          value={formData.email}
+          label="username"
+          name="username"
+          type="text"
+          value={formData.username}
           onChange={handleChange}
         />
         <Input
@@ -59,11 +71,11 @@ const Login = () => {
         <button style={
           {pointerEvents: isLoading ? 'none' : 'auto',
            opacity: isLoading ? 0.5 : 1,}} className='kirish_btn'>
-            {isLoading ? "ILTIMOS KUTING..." : "KIRISH"}
+            {isLoading ? "ILTIMOS KUTING..." : "Ro'yhatdan o'tish"}	
         </button>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Register
