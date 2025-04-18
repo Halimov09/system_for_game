@@ -7,3 +7,4 @@ export {default as MainTool} from './maintool.jsx';
 export {default as Honalar} from './honalar.jsx';
 export {default as Ombor} from './ombor.jsx';
 export {default as Hisobotlar} from './hisobotlar.jsx';
+export {default as Register} from './register.jsx';
