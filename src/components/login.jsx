@@ -4,6 +4,7 @@ import { Input } from '../ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { signUserFailure, signUserStart, signUserSucces } from '../slice/auth';
 import authService from '../service/auth';
+import {ValidationError} from './';
 
 const Login = () => {
   const [show, setShow] = useState(true);
@@ -34,8 +35,7 @@ const Login = () => {
     };
     try {
       const response = await authService.login(user) 
-      console.log(response)
-      dispatch(signUserSucces()) 
+      dispatch(signUserSucces(response.data)) 
     } catch (error) {
       dispatch(signUserFailure(error.response.data)) 
     }
@@ -52,6 +52,7 @@ const Login = () => {
     <div className='login ' style={{ display: show ? 'block' : 'none' }}>
       <img src={logo} alt="logo" />
       <h2 className='h2_login'>Ro'yhatdan o'tish</h2>
+      <ValidationError/>
       <form className='form_login' onSubmit={handleSubmit}>
         <Input
           label="email"
