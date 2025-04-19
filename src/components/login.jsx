@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { logo } from '../constants';
 import { Input } from '../ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { signUserFailure, signUserStart, signUserSucces } from '../slice/auth';
 import authService from '../service/auth';
 import {ValidationError} from './';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [show, setShow] = useState(true);
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -15,7 +17,7 @@ const Login = () => {
 
   // auth reduxni chaqirish uchun
   const dispatch = useDispatch()
-  const {isLoading} = useSelector(state => state.auth)
+  const {isLoading, isloggedIn} = useSelector(state => state.auth)
   console.log(isLoading)
 
   const handleChange = (e) => {
@@ -36,6 +38,7 @@ const Login = () => {
     try {
       const response = await authService.login(user) 
       dispatch(signUserSucces(response.data)) 
+      navigate('/')
     } catch (error) {
       dispatch(signUserFailure(error.response.data)) 
     }
@@ -43,10 +46,15 @@ const Login = () => {
       username: '',
       password: ''
     })
-    // setShow(false);
+    setShow(false);
     // bu yerda formani yuborish funksiyasi yozildi
   };
 
+  useEffect(() => {
+    if (isloggedIn) {
+      navigate('/')
+    }
+  }, [])
 
   return (
     <div className='login ' style={{ display: show ? 'block' : 'none' }}>

@@ -1,13 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { RegisterUserFailure, RegisterUserStart, RegisterUserSucces, signUserFailure, signUserStart, signUserSucces } from '../slice/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '../ui';
 import { logo } from '../constants';
 import authService from '../service/auth';
 import {ValidationError} from './';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [show, setShow] = useState(true);
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -23,7 +25,7 @@ const Register = () => {
 
     // auth reduxni chaqirish uchun
     const dispatch = useDispatch()
-    const {isLoading} = useSelector(state => state.auth)
+    const {isLoading, isloggedIn} = useSelector(state => state.auth)
     console.log(isLoading)
 
   const handleSubmit = async (e) => {
@@ -38,7 +40,7 @@ const Register = () => {
         const response = await authService.register(user)
         dispatch(signUserSucces(response.data))
         alert(response.data.message)
-        console.log(response)
+        navigate('/login')
     }catch (error) {
         dispatch(signUserFailure(error.response.data))
     }
@@ -50,6 +52,11 @@ const Register = () => {
     })
   };
 
+  useEffect(() => {
+      if (isloggedIn) {
+        navigate('/')
+      }
+    }, [])
 
   return (
     <div className='login ' style={{ display: show ? 'block' : 'none' }}>

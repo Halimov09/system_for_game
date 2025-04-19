@@ -47,6 +47,8 @@ ul{
     width: 100%;
     justify-content: space-between;
     width: 200px;
+    position: relative;
+    align-items: center;
 }
 
 .navbar__menu{
@@ -191,9 +193,20 @@ input{
     padding: 2px;
 }
 
+.user_btn{
+    border: 1px solid white;
+    color: rgb(255, 255, 255);
+    background-color: transparent;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
 
-
-
+.user_btn:hover{
+    background-color: rgb(255 0 0);
+    color: white;
+    border: 1px solid rgb(255 0 0);
+}
 
 
 
