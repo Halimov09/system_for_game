@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '../ui';
 import { logo } from '../constants';
 import authService from '../service/auth';
+import {ValidationError} from './';
 
 const Register = () => {
   const [show, setShow] = useState(true);
@@ -19,6 +20,11 @@ const Register = () => {
       [name]: value
     }));
   };
+
+    // auth reduxni chaqirish uchun
+    const dispatch = useDispatch()
+    const {isLoading} = useSelector(state => state.auth)
+    console.log(isLoading)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,15 +49,12 @@ const Register = () => {
     })
   };
 
-  // auth reduxni chaqirish uchun
-  const dispatch = useDispatch()
-  const {isLoading} = useSelector(state => state.auth)
-  console.log(isLoading)
 
   return (
     <div className='login ' style={{ display: show ? 'block' : 'none' }}>
       <img src={logo} alt="logo" />
       <h2 className='h2_login'>Kompaniyani roýhatdan o'tkazish</h2>
+      <ValidationError/>
       <form className='form_login' onSubmit={handleSubmit}>
         <Input
           label="username"

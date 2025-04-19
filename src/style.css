@@ -175,7 +175,21 @@ input{
     display: none;
 }
 
+.error{
+    color: white;
+    font-size: 14px;
+    display: inline-block;
+    border-radius: 5px;
+    gap: 10px;
+}
 
+.error_message{
+    margin: 10px 0 !important;
+    display: block;
+    background-color: rgb(255 0 0);
+    border-radius: 5px;
+    padding: 2px;
+}
 
 
 
