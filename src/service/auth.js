@@ -1,11 +1,16 @@
 import axios from './api';
 
 const authService = {
-  async login() {
+  async login(user) {
     // login qilish uchun kerakli kodlar
-    // const response = await axios.post('/token', {username, password});
+    const response = await axios.post('token/', user,{
+      headers: {
+        'Provider-Key': 'renessans3',
+      }
 
-    // return response;
+    });
+
+    return response;
   },
   async register(user) {
     // register qilish uchun kerakli kodlar

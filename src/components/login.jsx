@@ -2,14 +2,20 @@ import React, { useState } from 'react';
 import { logo } from '../constants';
 import { Input } from '../ui';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUserStart } from '../slice/auth';
+import { signUserFailure, signUserStart, signUserSucces } from '../slice/auth';
+import authService from '../service/auth';
 
 const Login = () => {
   const [show, setShow] = useState(true);
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: ''
   });
+
+  // auth reduxni chaqirish uchun
+  const dispatch = useDispatch()
+  const {isLoading} = useSelector(state => state.auth)
+  console.log(isLoading)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,22 +25,28 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUserStart())
-    console.log('Form data:', formData);
+    dispatch(signUserStart())
+    const user = {
+      username: formData.username,
+      password: formData.password
+    };
+    try {
+      const response = await authService.login(user) 
+      console.log(response)
+      dispatch(signUserSucces()) 
+    } catch (error) {
+      dispatch(signUserFailure(error.response.data)) 
+    }
     setFormData({
-      email: '',
+      username: '',
       password: ''
     })
     // setShow(false);
     // bu yerda formani yuborish funksiyasi yozildi
   };
 
-  // auth reduxni chaqirish uchun
-  const dispatch = useDispatch()
-  const {isLoading} = useSelector(state => state.auth)
-  console.log(isLoading)
 
   return (
     <div className='login ' style={{ display: show ? 'block' : 'none' }}>
@@ -43,8 +55,8 @@ const Login = () => {
       <form className='form_login' onSubmit={handleSubmit}>
         <Input
           label="email"
-          name="email"
-          type="email"
+          name="username"
+          type="text"
           value={formData.email}
           onChange={handleChange}
         />
