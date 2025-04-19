@@ -35,7 +35,6 @@ const Login = () => {
     };
     try {
       const response = await authService.login(user) 
-      console.log(response)
       dispatch(signUserSucces(response.data)) 
     } catch (error) {
       dispatch(signUserFailure(error.response.data)) 
