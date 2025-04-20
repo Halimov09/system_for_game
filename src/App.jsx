@@ -1,11 +1,33 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Bolimlar, Hisobotlar, Honalar, Login, Main, Navbar, Ombor, Register } from './components';
 import { Route, Routes } from 'react-router-dom';
+import authService from './service/auth';
+import { useEffect } from 'react';
+import { signUserSucces } from './slice/auth';
+import { getItem } from './helpers/persistance-storage';
 
 function App() {
-  const count = useSelector(state => state.value);
+  const dispatch = useDispatch();
+  const getUser = async () => {
+    try {
+      const response = await authService.getUser();
+      dispatch(signUserSucces(response.user))
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
 
-  console.log(count);
+  useEffect(() => {
+    const token = getItem("token")
+    if (token) {
+      getUser(); 
+    }
+  }
+  , []);
+
+
   return (
     <div className="App">
      <Navbar />

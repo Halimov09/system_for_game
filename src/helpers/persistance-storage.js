@@ -5,3 +5,12 @@ export const setItem = (key, value) => {
         console.error("Error setting item in localStorage", error);
     }
 }
+
+export const getItem = key => {
+    try {
+        return localStorage.getItem(key);
+    } catch (error) {
+        console.error("Error getting item from localStorage", error);
+        return null;
+    }
+}

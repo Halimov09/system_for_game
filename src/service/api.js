@@ -1,6 +1,15 @@
 import axios from "axios";
+import { getItem } from "../helpers/persistance-storage";
 
 axios.defaults.baseURL = "https://game.hubbun.uz/api/";
+
+axios.interceptors.request.use(config => {
+    const token = getItem("user")
+
+    const authToken = token ? `Token ${token}` : "";
+    config.headers.Authorization = authToken;
+    return config;
+});
 
 export default axios;
 

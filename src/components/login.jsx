@@ -40,7 +40,7 @@ const Login = () => {
       dispatch(signUserSucces(response.data)) 
       navigate('/')
     } catch (error) {
-      dispatch(signUserFailure(error.response.data)) 
+      dispatch(signUserFailure(error.response)) 
     }
     setFormData({
       username: '',
@@ -54,7 +54,7 @@ const Login = () => {
     if (isloggedIn) {
       navigate('/')
     }
-  }, [])
+  }, [isloggedIn])
 
   return (
     <div className='login ' style={{ display: show ? 'block' : 'none' }}>
