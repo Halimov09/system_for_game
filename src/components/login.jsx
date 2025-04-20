@@ -18,7 +18,6 @@ const Login = () => {
   // auth reduxni chaqirish uchun
   const dispatch = useDispatch()
   const {isLoading, isloggedIn} = useSelector(state => state.auth)
-  console.log(isLoading)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,6 +37,8 @@ const Login = () => {
     try {
       const response = await authService.login(user) 
       dispatch(signUserSucces(response.data)) 
+      console.log(response.data);
+      
       navigate('/')
     } catch (error) {
       dispatch(signUserFailure(error.response)) 

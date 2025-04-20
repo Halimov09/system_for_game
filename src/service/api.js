@@ -6,8 +6,10 @@ axios.defaults.baseURL = "https://game.hubbun.uz/api/";
 axios.interceptors.request.use(config => {
     const token = getItem("user")
 
-    const authToken = token ? `Token ${token}` : "";
+    const authToken = token ? `Bearer ${token}` : "";
     config.headers.Authorization = authToken;
+    console.log(config.headers);
+    
     return config;
 });
 

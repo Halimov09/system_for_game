@@ -3,27 +3,39 @@ import { Bolimlar, Hisobotlar, Honalar, Login, Main, Navbar, Ombor, Register } f
 import { Route, Routes } from 'react-router-dom';
 import authService from './service/auth';
 import { useEffect } from 'react';
-import { signUserSucces } from './slice/auth';
+import { signUserSuccess } from './slice/auth';
 import { getItem } from './helpers/persistance-storage';
+import barService from './service/bar';
 
 function App() {
   const dispatch = useDispatch();
   const getUser = async () => {
     try {
-      const response = await authService.getUser();
-      dispatch(signUserSucces(response.user))
+      const response = await authService.getUser("user");
+      dispatch(signUserSuccess(response))
       console.log(response);
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  const getBar = async () =>{
+    try {
+      const response = await barService.getBar()
+      console.log(response);
       
+    } catch (error) {
+      console.log(error);
     }
   }
 
   useEffect(() => {
-    const token = getItem("token")
+    const token = getItem("user")
     if (token) {
       getUser(); 
     }
+
+    getBar();
   }
   , []);
 

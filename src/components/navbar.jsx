@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 const Navbar = () => {
   const {isloggedIn, user} = useSelector(state => state.auth)
 
-  console.log(isloggedIn);
+  console.log(user);
   
   return (
     <div className="navbar container">
