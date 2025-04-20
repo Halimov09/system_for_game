@@ -25,8 +25,8 @@ const authService = {
   },
   async getUser() {
     // userni olish uchun kerakli kodlar
-    const {data} = await axios.get('auth/me/');
-    
+    const data = await axios.get('/token');
+
     return data;
   }
 }
