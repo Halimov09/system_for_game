@@ -10,7 +10,7 @@ export const getItem = key => {
     try {
         return localStorage.getItem(key);
     } catch (error) {
-        console.error("Error getting item from localStorage", error);
+        console.error("Error getting item", error);
         return null;
     }
 }

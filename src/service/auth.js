@@ -3,7 +3,7 @@ import axios from './api';
 const authService = {
   async login(user) {
     // login qilish uchun kerakli kodlar
-    const response = await axios.post('token/', user,{
+    const response = await axios.post('auth/token/', user,{
       headers: {
         'Provider-Key': 'renessans3',
       }
@@ -25,7 +25,7 @@ const authService = {
   },
   async getUser() {
     // userni olish uchun kerakli kodlar
-    const data = await axios.get('auth/me/');
+    const data = await axios.get('/token');
 
     return data;
   }
