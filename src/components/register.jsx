@@ -42,7 +42,7 @@ const Register = () => {
         alert(response.data.message)
         navigate('/login')
     }catch (error) {
-        dispatch(signUserFailure(error.response.data))
+        dispatch(signUserFailure(error.response))
     }
 
     console.log('Form data:', formData);
@@ -56,7 +56,7 @@ const Register = () => {
       if (isloggedIn) {
         navigate('/')
       }
-    }, [])
+    }, [isloggedIn])
 
   return (
     <div className='login ' style={{ display: show ? 'block' : 'none' }}>
