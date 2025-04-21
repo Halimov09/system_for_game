@@ -294,6 +294,10 @@ input{
         width: auto !important;
         gap: 0 10px;
     }
+
+    .login{
+        margin-top: 90px;
+    }
 }
 
 @media (max-width: 568px) {
