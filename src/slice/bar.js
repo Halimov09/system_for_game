@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     isLoading: false,
-    bars: []
+    bars: [],
+    error: null
     
 }
 
@@ -17,8 +18,11 @@ export const barSlice = createSlice({
             state.isLoading = false
             state.bars = action.payload;
         },
+        getBarFailure: (state, action) =>{
+            state.error = action.payload
+        }
     }
 });
 
-export const {getBarStart, getBarSucces} = barSlice.actions;
+export const {getBarStart, getBarSucces, getBarFailure} = barSlice.actions;
 export default barSlice.reducer;

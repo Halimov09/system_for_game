@@ -158,13 +158,13 @@ input{
 }
 
 .maintool{
-    background-color: rgb(17 24 39);
+    background-color: rgb(31 41 55);
     width: 75%;
     height: 100vh;
     position: absolute;
     right: 40px;
     top: 0;
-    padding-top: 80px;
+    padding: 80px 24px 0 24px;
 }
 
 .toogle_section{
@@ -209,12 +209,40 @@ input{
 }
 
 
+.nav_maintool{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.maintool_card{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
 
+.main_card{
+    background-color: rgb(17 24 39);
+    padding: 20px 40px;
+    border-radius: 10px;
+    display: flex;
+    gap: 15px;
+    cursor: pointer;
+    margin-top: 30px;
+    position: relative;
+}
 
+.main_card h3{
+    margin-top: 20px;
+}
 
-
-
+.settings{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
 
 
 
@@ -253,6 +281,14 @@ input{
 
     .h2_toolbar{
         margin-top: 0px;
+    }
+    .main_card{
+        width: 90%;
+    }
+
+    ul{
+        width: auto !important;
+        gap: 0 10px;
     }
 }
 
