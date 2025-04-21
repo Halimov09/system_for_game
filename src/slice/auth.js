@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { setItem } from '../helpers/persistance-storage'
+import { setItem, getItem } from '../helpers/persistance-storage'
 
 const initialState = {
   isLoading: false,
@@ -17,7 +17,7 @@ export const authSlice = createSlice({
         state.isLoading = true
     },
     signUserSucces: (state, action) => {
-      state.isLoading = true
+      state.isLoading = false
       state.isloggedIn = true
       state.user = action.payload
       setItem('user', action.payload.access)
@@ -25,10 +25,10 @@ export const authSlice = createSlice({
       
     },
     signUserSuccess: (state, action) => {
-      state.isLoading = true
+      state.isLoading = false
       state.isloggedIn = true
-      state.user = action.payload
-      setItem('user', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1MTg3ODE1LCJpYXQiOjE3NDUxODc1MTUsImp0aSI6ImFkMjNhNjk5YzNjNjRmOTRhNTYyOWQ1MTk5ODJkNTYxIiwidXNlcl9pZCI6OH0.PebUAd56Lbz5b94AlASv1Vti1tbV7DS4_TOtod2SodM")
+      state.user = action.payload.data.user
+      getItem('user')
       console.log(action.payload);
       
     },
@@ -38,9 +38,13 @@ export const authSlice = createSlice({
       console.log(action);
       
     },
+    logoutUser: state => {
+      state.user = null
+      state.isloggedIn = false
+    }
   } 
 })
 
-export const {signUserFailure, signUserSucces, signUserSuccess, signUserStart} = authSlice.actions
+export const {signUserFailure, logoutUser, signUserSucces, signUserSuccess, signUserStart} = authSlice.actions
 
 export default authSlice.reducer
