@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { signUserSuccess } from './slice/auth';
 import { getItem } from './helpers/persistance-storage';
 import barService from './service/bar';
+import { getBarStart, getBarSucces } from './slice/bar';
 
 function App() {
   const dispatch = useDispatch();
@@ -20,8 +21,10 @@ function App() {
   }
 
   const getBar = async () =>{
+    dispatch(getBarStart())
     try {
       const response = await barService.getBar()
+      dispatch(getBarSucces(response.data))
       console.log(response);
       
     } catch (error) {
