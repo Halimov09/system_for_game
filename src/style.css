@@ -244,6 +244,10 @@ input{
     right: 10px;
 }
 
+.toogle_section{
+    z-index: 10;
+    margin-top: 110px;
+}
 
 
 
