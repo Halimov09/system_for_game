@@ -14,3 +14,12 @@ export const getItem = key => {
         return null;
     }
 }
+
+export const removeItem = key => {
+    try {
+        return localStorage.removeItem(key);
+    } catch (error) {
+        console.error("Error removing item", error);
+        return null;
+    }
+}

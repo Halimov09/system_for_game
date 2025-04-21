@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { RegisterUserFailure, RegisterUserStart, RegisterUserSucces, signUserFailure, signUserStart, signUserSucces } from '../slice/auth';
+import { signUserFailure, signUserStart, signUserSucces } from '../slice/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '../ui';
 import { logo } from '../constants';

@@ -1,27 +1,37 @@
 import React from 'react';
 import { logo } from '../constants';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { removeItem } from '../helpers/persistance-storage';
+import { logoutUser} from '../slice/auth';
 
 const Navbar = () => {
   const {isloggedIn, user} = useSelector(state => state.auth)
-
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   console.log(user);
+
+  const handleRemove = () => {
+     removeItem("user")
+     dispatch(logoutUser());
+     navigate("/login")
+  }
   
   return (
     <div className="navbar container">
-      <a className='logo' href="/"><img src={logo} alt="logo" /></a>
+      <Link className='logo' to="/"><img src={logo} alt="logo" /></Link>
       <div className="navbar__menu">
         <ul>
           {isloggedIn ? (
             <>
             <p className='username'>{user.username}</p>
-            <button className='user_btn'>Chiqish</button>
+            <button onClick={handleRemove} className='user_btn'>Chiqish</button>
             </>
           )
           : (
             <>
-            <li><a href="/">Home</a></li>
-            <li><a href="/login">Login</a></li>
+            <Link to="/">Home</Link>
+            <Link to="/login">Login</Link>
             </>
           )}
         </ul>
