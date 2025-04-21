@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { logo } from '../constants';
+import  logo  from '../constants/img/image_2025-04-10_11-31-33.png';
 import { Input } from '../ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { signUserFailure, signUserStart, signUserSucces } from '../slice/auth';
@@ -59,7 +59,7 @@ const Login = () => {
 
   return (
     <div className='login ' style={{ display: show ? 'block' : 'none' }}>
-      <img src={logo} alt="logo" />
+      <img src={logo} width={100} alt="logo" />
       <h2 className='h2_login'>Ro'yhatdan o'tish</h2>
       <ValidationError/>
       <form className='form_login' onSubmit={handleSubmit}>
