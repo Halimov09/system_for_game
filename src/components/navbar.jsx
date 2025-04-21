@@ -1,5 +1,5 @@
 import React from 'react';
-import { logo } from '../constants';
+import  logo  from '../constants/img/image_2025-04-10_11-31-33.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { removeItem } from '../helpers/persistance-storage';
@@ -19,7 +19,7 @@ const Navbar = () => {
   
   return (
     <div className="navbar container">
-      <Link className='logo' to="/"><img src={logo} alt="logo" /></Link>
+      <Link className='logo' to="/"><img width={100} src={logo} alt="logo" /></Link>
       <div className="navbar__menu">
         <ul>
           {isloggedIn ? (

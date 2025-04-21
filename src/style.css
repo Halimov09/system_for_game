@@ -268,10 +268,10 @@ input{
     }
     
     .maintool{
-        background-color: rgb(17 24 39);
         width: 100%;
         position: static;
         padding-top: 80px;
+        height: auto;
     }
 
     .toogle_section{
