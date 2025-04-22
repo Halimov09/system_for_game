@@ -226,6 +226,7 @@ input{
 
 .main_card{
     background-color: rgb(17 24 39);
+    width: 350px;
     padding: 20px 40px;
     border-radius: 10px;
     display: flex;
@@ -236,19 +237,53 @@ input{
 }
 
 .main_card h3{
-    margin-top: 20px;
-}
-
-.settings{
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    margin-left: 10px;
 }
 
 .toogle_section{
     z-index: 10;
     margin-top: 110px;
 }
+
+.tomonidan{
+    left: 10px;
+    top: 10px;
+    color: green;
+}
+
+.maint_btns{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.maint_btn{
+    padding: 5px 10px;
+}
+
+.loader-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid rgb(37 99 235);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+
+
 
 
 
@@ -306,3 +341,4 @@ input{
         width: 100px;
     }
 }
+
