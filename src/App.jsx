@@ -7,6 +7,8 @@ import { signUserSuccess } from './slice/auth';
 import { getItem } from './helpers/persistance-storage';
 import barService from './service/bar';
 import { getBarStart, getBarSucces } from './slice/bar';
+import Gaming from './components/gaming';
+import CreateGamingCategories from './components/creategamingcategories';
 
 function App() {
   const dispatch = useDispatch();
@@ -54,6 +56,8 @@ function App() {
       <Route path="/Ombor" element={<Ombor />} />
       <Route path="/Hisobotlar" element={<Hisobotlar />} />
       <Route path="/Registironlyfordeveloper" element={<Register />} />
+      <Route path="/Gaming/:id" element={<Gaming />} />
+      <Route path="/CreateGame" element={<CreateGamingCategories />} />
      </Routes>
     </div>
   );
