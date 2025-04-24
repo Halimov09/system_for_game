@@ -45,9 +45,10 @@ const CreateGamingCategories = () => {
           dispatch(getBarStart());
           const responses = await barService.getBar();
           dispatch(getBarSucces(responses.data));
+          alert("Muvaffaqiyatlik yaratildi")
+          navigate("/Bo'limlar")
         } catch (error) {
-          console.log(error);
-           
+          alert("Xatolik yuz berdi")
         }
         setFormData({
           name: '',
@@ -82,7 +83,7 @@ const CreateGamingCategories = () => {
                 <button style={
                 {pointerEvents: isLoading ? 'none' : 'auto',
                 opacity: isLoading ? 0.5 : 1,}} className='kirish_btn'>
-                    {isLoading ? "ILTIMOS KUTING..." : "KIRISH"}
+                    {isLoading ? "ILTIMOS KUTING..." : "Kiritish"}
                 </button>
            </form>
           </div>
