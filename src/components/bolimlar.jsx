@@ -1,27 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Loader } from '../ui'
+import { useNavigate } from 'react-router-dom'
 
 
 const Bolimlar = () => {
   const {bars, isLoading} = useSelector(state => state.bar)
+  const navigate = useNavigate()
 
-  
-  
+
+
   return (
     <div className='maintool'>
         <div className="nav_maintool">
           <h2>Bolimlar</h2>
-          <button className='bolim_btn kirish_btn'>Bo'lim qo'shish</button>
+          <button onClick={() => navigate(`/CreateGame`)} className='bolim_btn kirish_btn'>Bo'lim qo'shish</button>
         </div>
         {isLoading && <Loader/>}
         <div className="maintool_card">
           {bars.map(item => (
-             <div className="main_card" key={item.id}>
+             <div className="main_card" onClick={() => navigate(`/Gaming/${item.id}`)} key={item.id}>
               <img  width={100} src={item.image} alt="" />
               <h3>{item.name}</h3>
               <div className="maint_btns">
-                <button className='user_btn maint_btn'>O'chirish</button>
+                <button  className='user_btn maint_btn'>O'chirish</button>
               </div>
            </div>
           ))}

@@ -9,3 +9,4 @@ export {default as Ombor} from './ombor.jsx';
 export {default as Hisobotlar} from './hisobotlar.jsx';
 export {default as Register} from './register.jsx';
 export {default as ValidationError} from './validation-error.jsx';
+export {default as Creategamingcategories} from './creategamingcategories.jsx';

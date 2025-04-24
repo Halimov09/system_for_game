@@ -67,7 +67,7 @@ const Login = () => {
           label="email"
           name="username"
           type="text"
-          value={formData.email}
+          value={formData.username}
           onChange={handleChange}
         />
         <Input
