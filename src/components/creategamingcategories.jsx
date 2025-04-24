@@ -3,7 +3,7 @@ import { Input } from "../ui"
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import barService from "../service/bar";
-import { getBarStart, getBarSucces } from "../slice/bar";
+import { getBarStart, getBarSucces, postItemDetailFailure, postItemDetailStart, postItemDetailSuccess } from "../slice/bar";
 
 const CreateGamingCategories = () => {
     const navigate = useNavigate()
@@ -39,16 +39,18 @@ const CreateGamingCategories = () => {
         };
         console.log(game);
         
+        dispatch(postItemDetailStart())
         try {
-          const response = await barService.Postgame(game)
-          console.log(response);
-          dispatch(getBarStart());
+          await barService.Postgame(game)
+          dispatch(postItemDetailSuccess())
           const responses = await barService.getBar();
           dispatch(getBarSucces(responses.data));
           alert("Muvaffaqiyatlik yaratildi")
           navigate("/Bo'limlar")
         } catch (error) {
-          alert("Xatolik yuz berdi")
+          alert("Nimadur hato ketti")
+          dispatch(postItemDetailFailure())
+          navigate("/")
         }
         setFormData({
           name: '',
