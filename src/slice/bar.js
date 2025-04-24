@@ -34,10 +34,22 @@ export const barSlice = createSlice({
         getItemDetailFailure: state =>{
             state.isLoading = false
         },
+
+        postItemDetailStart: state =>{
+            state.isLoading = true
+        },
+        postItemDetailSuccess: (state, action) =>{
+            state.isLoading = false
+        },
+        postItemDetailFailure: state =>{
+            state.isLoading = false
+            state.error = ("Nimadur xato ketdi")
+        },
     }
 });
 
 export const {getBarStart, getBarSucces, getBarFailure,
-     getItemDetailFailure, getItemDetailStart, getItemDetailSuccess
+     getItemDetailFailure, getItemDetailStart, getItemDetailSuccess,
+        postItemDetailStart, postItemDetailSuccess, postItemDetailFailure
 } = barSlice.actions;
 export default barSlice.reducer;
