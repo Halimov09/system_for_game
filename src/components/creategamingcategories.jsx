@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom"
 import { Input } from "../ui"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import barService from "../service/bar";
-import { getBarStart, getBarSucces, postItemDetailFailure, postItemDetailStart, postItemDetailSuccess } from "../slice/bar";
+import { getBarSucces, postItemDetailFailure, postItemDetailStart, postItemDetailSuccess } from "../slice/bar";
 
 const CreateGamingCategories = () => {
     const navigate = useNavigate()
@@ -61,7 +61,9 @@ const CreateGamingCategories = () => {
 
     const handleclose = () => {
         navigate("/Bo'limlar")
-      }
+    }
+
+
 
   return (
     <div className="gaming">

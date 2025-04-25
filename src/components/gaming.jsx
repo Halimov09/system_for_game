@@ -4,6 +4,7 @@ import barService from '../service/bar';
 import { useDispatch, useSelector } from 'react-redux';
 import { getItemDetailFailure, getItemDetailStart, getItemDetailSuccess } from '../slice/bar';
 import { Loader } from '../ui';
+import { Button, ButtonGroup, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
 
 const Gaming = () => {
     const {id} = useParams();
@@ -39,10 +40,30 @@ const Gaming = () => {
       ) : (
         <div className='gaming_item'>
           <button onClick={handleclose} className='user_btn btn_gaming'>orqaga</button>
-          <img width={200} src={itemDetail.image} alt="" />
-          <h1>Category indeksi: {id}</h1>
-          <h2> Category Nomi: {itemDetail.name} </h2>
-          <p>Category yaratuvchisi: {itemDetail.created_by}</p>
+          
+          <Card sx={{ maxWidth: 345 }}>
+            <CardMedia
+              sx={{ height: 140 }}
+              image={itemDetail.image}
+              title="gaming categories"
+            />
+            <CardContent>
+            <Typography gutterBottom variant="h5" className='varianth5' component="div" style={{marginBottom: "20px"}}> 
+              <span className='span'>Kategoriya nomi: </span>
+              {itemDetail.name}
+            </Typography>
+            <Typography variant="body2" >
+              <span className='span'>Yaratuvchi: </span>
+              {itemDetail.created_by}
+            </Typography>
+            </CardContent>
+            <CardActions>
+            <ButtonGroup variant="contained" aria-label="Basic button group">
+              <Button onClick={() => navigate("/Honalar")}>Hona ochish</Button>
+              <Button>O'chirish</Button>
+            </ButtonGroup>
+            </CardActions>
+          </Card>
         </div>
       )}
     </div>
