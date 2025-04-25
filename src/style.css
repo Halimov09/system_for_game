@@ -160,7 +160,6 @@ input{
 .maintool{
     background-color: rgb(31 41 55);
     width: 75%;
-    height: 100vh;
     position: absolute;
     right: 40px;
     top: 110px;
@@ -314,13 +313,29 @@ input{
 
 .gaming_item{
     background-color: rgb(31 41 55);
-    padding: 70px 20px;
+    padding: 20px;
     border-radius: 10px;
+    max-width: 450px;
 }
 
+.css-1i3faf7-MuiPaper-root-MuiCard-root{
+    background-color: transparent !important;
+    color: rgb(255, 255, 255) !important;
+}
 
+.span{
+    margin-right: 10px;
+}
 
+.bolim_img{
+    max-width: 100px;
+    height: 100px;
+    overflow: hidden;
+}
 
+.bolim_img img{
+    width: 100%;
+}
 
 
 
@@ -380,4 +395,26 @@ input{
         width: 100px;
     }
 }
+
+@media (max-width: 368px) {
+    .varianth5{
+        font-size: 14px !important;
+    }
+
+    .user_btn{
+        padding: 5px 10px;
+    }
+
+    .username{
+        font-size: 14px !important;
+    }
+    .logo{
+        width: 50px;
+    }
+
+    .main_card{
+        width: 95%;
+    }
+}
+
 

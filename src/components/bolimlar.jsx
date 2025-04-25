@@ -20,11 +20,11 @@ const Bolimlar = () => {
         <div className="maintool_card">
           {bars.map(item => (
              <div className="main_card" onClick={() => navigate(`/Gaming/${item.id}`)} key={item.id}>
-              <img  height={100} src={item.image} alt="" />
-              <h3>{item.name}</h3>
-              <div className="maint_btns">
-                <button  className='user_btn maint_btn'>O'chirish</button>
+              <div className="bolim_img">
+              <img src={item.image} alt="" />
               </div>
+              <h3>{item.name}</h3>
+              
            </div>
           ))}
         </div>

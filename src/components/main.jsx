@@ -21,7 +21,7 @@ const Main = () => {
         menu
       </span>
       </div>
-      <div style={{ display: show ? 'block' : 'none' }}>
+      <div className='tool_main' style={{ display: show ? 'block' : 'none' }}>
         <Toolbar onLinkClick={handleToolbarLinkClick} />
       </div>
     </div>
