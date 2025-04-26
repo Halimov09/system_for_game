@@ -6,6 +6,8 @@ import { signUserFailure, signUserStart, signUserSucces } from '../slice/auth';
 import authService from '../service/auth';
 import {ValidationError} from './';
 import { useNavigate } from 'react-router-dom';
+import { getBarSucces } from '../slice/bar';
+import barService from '../service/bar';
 
 const Login = () => {
   const [show, setShow] = useState(true);
@@ -36,7 +38,9 @@ const Login = () => {
     };
     try {
       const response = await authService.login(user) 
+      const responses = await barService.getBar()
       dispatch(signUserSucces(response.data)) 
+      dispatch(getBarSucces(responses.data))
       console.log(response.data);
       
       navigate('/')

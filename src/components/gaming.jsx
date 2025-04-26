@@ -19,7 +19,7 @@ const Gaming = () => {
         try {
           const response = await barService.getBarItem(id)
           dispatch(getItemDetailSuccess(response.data))   
-          console.log(response.data);       
+                
         } catch (error) {
           dispatch(getItemDetailFailure())
         }
@@ -59,8 +59,14 @@ const Gaming = () => {
             </CardContent>
             <CardActions>
             <ButtonGroup variant="contained" aria-label="Basic button group">
-              <Button onClick={() => navigate("/Honalar")}>Hona ochish</Button>
-              <Button>O'chirish</Button>
+            <Button
+              onClick={() => {
+                localStorage.setItem('selectedBarId', itemDetail.id);
+                navigate("/Honalar");
+              }}
+            >
+              O'yinlar
+            </Button>
             </ButtonGroup>
             </CardActions>
           </Card>
