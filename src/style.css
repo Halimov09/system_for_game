@@ -451,6 +451,7 @@ input{
   }
 
   .card_room{
+    margin-top: 40px;
     width: 100%;
     display: flex !important;
     flex-wrap: wrap !important;
@@ -466,6 +467,15 @@ input{
         background-color: rgb(95, 5, 5);
     }
 
+    .accordion-summary{
+        position: relative;
+    }
+
+    .bandtext{
+        position: absolute;
+        top: 12px;
+        right: 50px;
+    }
 
 
 
@@ -527,7 +537,7 @@ input{
     ul{
         width: 100px;
     }
-   
+
 }
 
 @media (max-width: 368px) {
@@ -549,6 +559,11 @@ input{
     .main_card{
         width: 95%;
     }
+
+    .bandtext{
+        font-size: 12px !important;
+        top: 15px;
+       }
 }
 
 
