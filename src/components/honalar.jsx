@@ -8,14 +8,12 @@ import roomService from '../service/room';
 import { useNavigate } from 'react-router-dom';
 
 const Honalar = () => {
-  const {id} = useSelector(state => state.bar)
   const {rooms, isLoading} = useSelector(state => state.room)
 
   console.log(rooms);
   
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  
   
   const [formData, setFormData] = useState({
     name: '',
@@ -44,8 +42,7 @@ const Honalar = () => {
       await roomService.PostRoom(room)
       dispatch(postItemRoomSuccess())
       const responses = await roomService.getRoom();
-      dispatch(getRoomSucces(responses.data));
-      
+      dispatch(getRoomSucces(responses.data));      
       alert("Muvaffaqiyatlik yaratildi")
       navigate("/Honalar")
     } catch (error) {
@@ -62,18 +59,26 @@ const Honalar = () => {
     // bu yerda formani yuborish funksiyasi yozildi
   };
 
+  const deleteHandler = async (id) => {
+    try {
+      await roomService.deleteRoom(id)
+      const response = await roomService.getRoom(id)
+      dispatch(getRoomSucces(response.data))
+      alert("O'chirildi")
+    } catch (error) {
+      alert("Error deleting room:");
+    }
+  }
+
   useEffect(() => {
       const getAllRooms = async () => {
         try {
           const response = await roomService.getRoom()
-          dispatch(getRoomSucces(response.data))
-          console.log(response.data);
-          
+          dispatch(getRoomSucces(response.data))          
         } catch (error) {
-          console.log("Xatolik:", error)
+          console.log("Error fetching rooms:");
         }
       }
-    
       getAllRooms()
     }, []) 
 
@@ -90,21 +95,21 @@ const Honalar = () => {
             <Typography component="span">O'yin qo'shish</Typography>
           </AccordionSummary>
           <AccordionDetails className="accordion-details">
-            <Input
+            <Input 
               label="Hona nomi"
               name="name"
               type="text"
               value={formData.name}
               onChange={handleChange}
             />
-            <Input
+            <Input 
               label="Narxi (soatiga)"
               name="price_per_hour"
               type="number"
               value={formData.price_per_hour}
               onChange={handleChange}
             />
-            <Button
+            <Button className="add_input"
               variant="contained"
               color="primary"
               onClick={handleSubmit}
@@ -141,7 +146,7 @@ const Honalar = () => {
                     <strong>Bo'lim:</strong> {item.category_detail.name}
                   </div>
                   <button style={item.is_occupied ? { cursor: "not-allowed", opacity: "0.5" } : {}} class="book-button">Band qilish</button>
-                  <button style={item.is_occupied ? { cursor: "not-allowed", opacity: "0.5" } : {}} class="book-button del_btn">O'chirish</button>
+                  <button onClick={() => deleteHandler(item.id)} style={item.is_occupied ? { cursor: "not-allowed", opacity: "0.5" } : {}} class="book-button del_btn">O'chirish</button>
                   <button style={item.is_occupied ? { display: "auto" } : {display: "none"}} class="book-button del_btn">To'htatish</button>
                 </div>
               </div>
