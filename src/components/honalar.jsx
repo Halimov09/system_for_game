@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Typography, Button } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Typography, Button, colors } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Input } from '../ui';
 import { useDispatch, useSelector } from 'react-redux';
@@ -45,6 +45,7 @@ const Honalar = () => {
       dispatch(postItemRoomSuccess())
       const responses = await roomService.getRoom();
       dispatch(getRoomSucces(responses.data));
+      
       alert("Muvaffaqiyatlik yaratildi")
       navigate("/Honalar")
     } catch (error) {
@@ -79,14 +80,14 @@ const Honalar = () => {
   return (
     <div className="maintool">
       <div className="honalar-header">
-        <h2 className="honalar-title">Honalar</h2>
+        <h2 className="honalar-title">O'yinlar</h2>
         <Accordion className="accordion">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon className="iconw" />}
             aria-controls="panel1-content"
             id="panel1-header"
           >
-            <Typography component="span">Qo'shish</Typography>
+            <Typography component="span">O'yin qo'shish</Typography>
           </AccordionSummary>
           <AccordionDetails className="accordion-details">
             <Input
@@ -113,28 +114,40 @@ const Honalar = () => {
           </AccordionDetails>
         </Accordion>
         <div className="card_room">
-        {rooms.map(item => (
-          <div>
-          <div class="room-card">
-            <div class="room-image">
-              <img src={item.category_detail.image} alt="Category Image" />
-            </div>
-  
-            <div class="room-content">
-              <h2 class="room-name">Nomi: {item.name}</h2>
-              <p class="room-price">Narxi soatiga:  {item.price_per_hour}
-              </p>
-              <p class="room-status occupied">{item.is_occupied && "Band qilingan" || "Band qilinmagan"              }</p>
-              <div class="room-category">
-                <strong>Bo'lim:</strong> {item.category_detail.name}
+          <h2>Mavjud o'yinlar</h2>
+            {rooms.map(item => (
+              <Accordion className="accordion">
+              <AccordionSummary className='accordion-summary'
+                expandIcon={<ExpandMoreIcon className="iconw" />}
+                aria-controls="panel1-content"
+                id="panel1-header"
+              >
+                <Typography component="span">{item.name}</Typography>
+                <Typography style={item.is_occupied && {color: "red"} || {color:"green"}} component="span" className='bandtext'>{item.is_occupied && "Band qilingan" || "Band qilinmagan"              }</Typography>
+
+              </AccordionSummary>
+              <AccordionDetails>
+              <div class="room-card">
+                <div class="room-image">
+                  <img src={item.category_detail.image} alt="Category Image" />
+                </div>
+      
+                <div class="room-content">
+                  <h2 class="room-name">Nomi: {item.name}</h2>
+                  <p class="room-price">Narxi soatiga:  {item.price_per_hour}
+                  </p>
+                  <p class="room-status occupied">{item.is_occupied && "Band qilingan" || "Band qilinmagan"              }</p>
+                  <div class="room-category">
+                    <strong>Bo'lim:</strong> {item.category_detail.name}
+                  </div>
+                  <button style={item.is_occupied ? { cursor: "not-allowed", opacity: "0.5" } : {}} class="book-button">Band qilish</button>
+                  <button style={item.is_occupied ? { cursor: "not-allowed", opacity: "0.5" } : {}} class="book-button del_btn">O'chirish</button>
+                  <button style={item.is_occupied ? { display: "auto" } : {display: "none"}} class="book-button del_btn">To'htatish</button>
+                </div>
               </div>
-              <button disabled={item.is_occupied} class="book-button">Band qilish</button>
-              <button disabled={item.is_occupied} class="book-button del_btn">O'chirish</button>
-            </div>
-          </div>
-  
-          </div>
-        ))}
+              </AccordionDetails>
+              </Accordion>
+              ))}
         </div>
       </div>
     </div>
