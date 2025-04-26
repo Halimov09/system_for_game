@@ -5,6 +5,7 @@ const Input = ({ label, value, onChange, name, type }) => {
     <div>
       <label htmlFor={name}>{label}</label>
       <input
+        className="add_input"
         type={type}
         id={name}
         placeholder={label}

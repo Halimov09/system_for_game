@@ -12,7 +12,7 @@ const roomService = {
       return data
     },
 
-    async getdeleteRoom(id) {
+    async deleteRoom(id) {
       const data = await axios.delete(`gaming/rooms/${id}/`)
 
       return data
