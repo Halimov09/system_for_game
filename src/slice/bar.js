@@ -4,7 +4,8 @@ const initialState = {
     isLoading: false,
     itemDetail: null,
     bars: [],
-    error: null
+    error: null,
+    id: null,
     
 }
 
@@ -30,6 +31,7 @@ export const barSlice = createSlice({
         getItemDetailSuccess: (state, action) =>{
             state.isLoading = false
             state.itemDetail = action.payload
+            state.id = action.payload.id
         },
         getItemDetailFailure: state =>{
             state.isLoading = false

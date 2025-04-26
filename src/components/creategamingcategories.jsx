@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { Input } from "../ui"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import barService from "../service/bar";
 import { getBarSucces, postItemDetailFailure, postItemDetailStart, postItemDetailSuccess } from "../slice/bar";

@@ -13,7 +13,7 @@ const barService = {
     },
 
     async getdeleteItem(id) {
-      const data = await axios.delete(`gaming/categories/${id}`)
+      const data = await axios.delete(`gaming/categories/${id}/`)
 
       return data
     },
