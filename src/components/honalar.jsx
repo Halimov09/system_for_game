@@ -1,16 +1,23 @@
 import { useEffect, useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Typography, Button, colors } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Typography, Button, colors, Modal, Box, Fade, Backdrop } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Input } from '../ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRoomSucces, postItemRoomFailure, postItemRoomStart, postItemRoomSuccess } from '../slice/room';
 import roomService from '../service/room';
 import { useNavigate } from 'react-router-dom';
+import roomSessionService from '../service/session';
+import { postItemRoomSesFailure, postItemRoomSesStart, postItemRoomSesSuccess } from '../slice/session';
 
 const Honalar = () => {
   const {rooms, isLoading} = useSelector(state => state.room)
-
-  console.log(rooms);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -21,6 +28,28 @@ const Honalar = () => {
     category: localStorage.getItem("selectedBarId")
   });
 
+  const [formSession, setFormSession] = useState({
+    gaming_room: localStorage.getItem("selectedSesId"),
+    session_type: "VIP",  // Default qiymat: VIP
+    fixed_duration_minutes: "",
+  });
+
+  const handleVaqtlikClick = () => {
+    setFormSession((prevState) => ({
+      ...prevState,
+      session_type: "fixed",  // Vaqtlik tugma bosilganda session_type ni "fixed" qilib o'zgartiramiz
+    }));
+  };
+
+  // "Vip" tugmasi bosilganda session_type ni "VIP" qilib qaytarish
+  const handleVipClick = () => {
+    setFormSession((prevState) => ({
+      ...prevState,
+      session_type: "VIP",  // Vip tugma bosilganda session_type ni "VIP" qilib o'zgartiramiz
+    }));
+  };
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -29,6 +58,7 @@ const Honalar = () => {
     }));
   };
 
+  // for room
   const handleSubmit = async (e) => {
     e.preventDefault();
     const room = {
@@ -44,7 +74,6 @@ const Honalar = () => {
       const responses = await roomService.getRoom();
       dispatch(getRoomSucces(responses.data));      
       alert("Muvaffaqiyatlik yaratildi")
-      navigate("/Honalar")
     } catch (error) {
       alert("Nimadur hato ketti")
       dispatch(postItemRoomFailure())
@@ -58,6 +87,60 @@ const Honalar = () => {
     })
     // bu yerda formani yuborish funksiyasi yozildi
   };
+
+  // for session
+
+  const handleChangeSes = (e) => {
+    const { name, value } = e.target;
+    if (name === "fixed_duration_minutes") {
+      // Agar soat kiritilsa, uni minutga aylantirish
+      const minutes = value * 60;
+      setFormSession((prevState) => ({
+        ...prevState,
+        [name]: minutes,  // Soatni minutga aylantirib saqlaymiz
+      }));
+    } else {
+      setFormSession((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSessionSubmit = async (e) => {
+    e.preventDefault();
+    const session = {
+      gaming_room: formSession.gaming_room,
+      session_type: formSession.session_type,
+      fixed_duration_minutes: formSession.fixed_duration_minutes
+    }
+
+    dispatch(postItemRoomSesStart())
+    console.log(session);
+    
+    try {
+      const response = await roomSessionService.PostRomSes(session)
+      dispatch(postItemRoomSesSuccess())
+      console.log(response);
+      
+      const responses = await roomService.getRoom();
+      dispatch(getRoomSucces(responses.data));      
+      alert("Vaqt band qilindi")
+    } catch (error) {
+      alert("Nimadur hato ketti")
+      dispatch(postItemRoomSesFailure())
+      navigate("/")
+      
+    }
+    setFormSession({
+      gaming_room: localStorage.getItem("selectedSesId"),
+      session_type: '',
+      fixed_duration_minutes: ''
+    });
+    setOpen(false)
+  };
+
+
 
   const deleteHandler = async (id) => {
     try {
@@ -81,6 +164,31 @@ const Honalar = () => {
       }
       getAllRooms()
     }, []) 
+
+    const [activeButton, setActiveButton] = useState(""); // "vip" yoki "vaqt"
+
+    // Vip handle
+    const vipHandle = () => {
+      setActiveButton("vip"); // Vipni faollashtiramiz
+    };
+  
+    // Vaqt handle
+    const vaqtHandle = () => {
+      setActiveButton("vaqt"); // Vaqtni faollashtiramiz
+    };
+
+
+    const style = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 400,
+      bgcolor: 'background.paper',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
+    };
 
   return (
     <div className="maintool">
@@ -145,7 +253,50 @@ const Honalar = () => {
                   <div class="room-category">
                     <strong>Bo'lim:</strong> {item.category_detail.name}
                   </div>
-                  <button style={item.is_occupied ? { cursor: "not-allowed", opacity: "0.5" } : {}} class="book-button">Band qilish</button>
+                  <button onClick={() => {
+                      localStorage.setItem('selectedSesId', item.id);
+                      handleOpen()
+                    }} style={item.is_occupied ? { cursor: "not-allowed", opacity: "0.5" } : {}} class="book-button">Band qilish
+                  </button>
+                  <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    slots={{ backdrop: Backdrop }}
+                    slotProps={{
+                      backdrop: {
+                        timeout: 500,
+                      },
+                    }}
+                  >
+                <Fade in={open}>
+                  <Box sx={style}>
+                    <Typography id="transition-modal-title" variant="h6" style={{marginBottom: "20px"}} component="h2">
+                      O'yin band qilish
+                      </Typography>
+                        <form onSubmit={handleSessionSubmit}>
+                        <Button onClick={handleVipClick} variant="outlined" disabled={formSession.session_type === "VIP"}>
+                          Vip Ochish
+                        </Button>
+                        <Button onClick={handleVaqtlikClick} variant="outlined" disabled={formSession.session_type === "fixed"}>
+                          Vaqtlik Ochish
+                        </Button>
+                        {formSession.session_type === "fixed" && (
+                          <Input
+                            label="O'yin davomiyligi (soatda)"
+                            name="fixed_duration_minutes"
+                            type="number"
+                            value={formSession.fixed_duration_minutes ? formSession.fixed_duration_minutes / 60 : ""}
+                            onChange={handleChangeSes}
+                          />
+                        )}
+                        <Button className="add_input" variant="contained" color="primary" type="submit">Band qilish</Button>
+                        </form>
+                    </Box>
+                  </Fade>
+                </Modal>
                   <button onClick={() => deleteHandler(item.id)} style={item.is_occupied ? { cursor: "not-allowed", opacity: "0.5" } : {}} class="book-button del_btn">O'chirish</button>
                   <button style={item.is_occupied ? { display: "auto" } : {display: "none"}} class="book-button del_btn">To'htatish</button>
                 </div>
@@ -158,5 +309,7 @@ const Honalar = () => {
     </div>
   );
 };
+
+
 
 export default Honalar;
