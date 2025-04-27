@@ -36,12 +36,15 @@ const Login = () => {
       username: formData.username,
       password: formData.password
     };
+    console.log(user);
+    
     try {
       const response = await authService.login(user) 
-      const responses = await barService.getBar()
       dispatch(signUserSucces(response.data)) 
+      const responses = await barService.getBar()
       dispatch(getBarSucces(responses.data))
       console.log(response.data);
+      console.log(user);
       
       navigate('/')
     } catch (error) {
@@ -55,6 +58,7 @@ const Login = () => {
     // bu yerda formani yuborish funksiyasi yozildi
   };
 
+  
   useEffect(() => {
     if (isloggedIn) {
       navigate('/')
