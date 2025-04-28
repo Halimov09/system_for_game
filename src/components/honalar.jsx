@@ -30,7 +30,7 @@ const Honalar = () => {
 
   const [formSession, setFormSession] = useState({
     gaming_room: localStorage.getItem("selectedSesId"),
-    session_type: "VIP",  // Default qiymat: VIP
+    session_type: "",  // Default qiymat: VIP
     fixed_duration_minutes: "",
   });
 
@@ -110,7 +110,7 @@ const Honalar = () => {
   const handleSessionSubmit = async (e) => {
     e.preventDefault();
     const session = {
-      gaming_room: formSession.gaming_room,
+      gaming_room: localStorage.getItem("selectedSesId"),
       session_type: formSession.session_type,
       fixed_duration_minutes: formSession.fixed_duration_minutes
     }
@@ -126,6 +126,7 @@ const Honalar = () => {
       const responses = await roomService.getRoom();
       dispatch(getRoomSucces(responses.data));      
       alert("Vaqt band qilindi")
+      navigate("/")
     } catch (error) {
       alert("Nimadur hato ketti")
       dispatch(postItemRoomSesFailure())
@@ -253,11 +254,7 @@ const Honalar = () => {
                   <div class="room-category">
                     <strong>Bo'lim:</strong> {item.category_detail.name}
                   </div>
-                  <button onClick={() => {
-                      localStorage.setItem('selectedSesId', item.id);
-                      handleOpen()
-                    }} style={item.is_occupied ? { cursor: "not-allowed", opacity: "0.5" } : {}} class="book-button">Band qilish
-                  </button>
+                  
                   <Modal
                     aria-labelledby="transition-modal-title"
                     aria-describedby="transition-modal-description"
@@ -297,8 +294,30 @@ const Honalar = () => {
                     </Box>
                   </Fade>
                 </Modal>
-                  <button onClick={() => deleteHandler(item.id)} style={item.is_occupied ? { cursor: "not-allowed", opacity: "0.5" } : {}} class="book-button del_btn">O'chirish</button>
+                  
                   <button style={item.is_occupied ? { display: "auto" } : {display: "none"}} class="book-button del_btn">To'htatish</button>
+                </div>
+                <div className="room_btns">
+                {!item.is_occupied && (
+                    <>
+                      <button
+                        onClick={() => {
+                          localStorage.setItem('selectedSesId', item.id);
+                          handleOpen();
+                        }}
+                        className="book-button"
+                      >
+                        Band qilish
+                      </button>
+
+                      <button
+                        onClick={() => deleteHandler(item.id)}
+                        className="book-button del_btn"
+                      >
+                        O'chirish
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
               </AccordionDetails>
