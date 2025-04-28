@@ -375,15 +375,17 @@ input{
   }
 
   .room-card {
-    background-color: rgb(17 24 39);
-    max-width: 400px;
+    background-color: rgb(17 24 39) !important;
+    width: 100%;
     margin: 20px auto;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     border-radius: 15px;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     transition: transform 0.3s ease;
+    padding: 24px;
+    align-items: center;
   }
   
   .room-card:hover {
@@ -490,11 +492,24 @@ input{
         color: white !important;
     }
 
+    .room_btns{
+        display: flex;
+        flex-direction: column;
+    }
 
 
 /* responsive */
 
 @media (max-width: 768px) {
+    .room-card {
+        flex-direction: column;
+        padding: 0;
+
+    }
+
+    .room_btns{
+        width: 100%;
+    }
 
     .main{
         width: 100%;
@@ -550,6 +565,7 @@ input{
         width: 100px;
     }
 
+    
 }
 
 @media (max-width: 368px) {
