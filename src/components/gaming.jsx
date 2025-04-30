@@ -41,14 +41,14 @@ const Gaming = () => {
         <div className='gaming_item'>
           <button onClick={handleclose} className='user_btn btn_gaming'>orqaga</button>
           
-          <Card sx={{ maxWidth: 345 }}>
+          <Card className='card-gamer'>
             <CardMedia
               sx={{ height: 140 }}
               image={itemDetail.image}
               title="gaming categories"
             />
             <CardContent>
-            <Typography gutterBottom variant="h5" className='varianth5' component="div" style={{marginBottom: "20px"}}> 
+            <Typography gutterBottom variant="h5" className='varianth5 gamer-text' component="div" style={{marginBottom: "20px"}}> 
               <span className='span'>Kategoriya nomi: </span>
               {itemDetail.name}
             </Typography>
@@ -60,12 +60,13 @@ const Gaming = () => {
             <CardActions>
             <ButtonGroup variant="contained" aria-label="Basic button group">
             <Button
+            className='btn_gamer'
               onClick={() => {
                 localStorage.setItem('selectedBarId', itemDetail.id);
                 navigate("/Honalar");
               }}
             >
-              O'yinlar
+              O'yinlar qo'shish
             </Button>
             </ButtonGroup>
             </CardActions>
