@@ -311,11 +311,19 @@ input{
     margin-top: 20px;
 }
 
-.gaming_item{
-    background-color: rgb(31 41 55);
+.gaming_item, .card_gaming{
+    background-color: rgb(31 41 55) !important;
     padding: 20px;
     border-radius: 10px;
-    max-width: 450px;
+    max-width: 100%;
+}
+
+.gamer-text{
+    color: white !important;
+}
+
+.card-gamer{
+    background-color: rgb(31 41 55) !important;
 }
 
 .css-1i3faf7-MuiPaper-root-MuiCard-root{
@@ -496,6 +504,9 @@ input{
         display: flex;
         flex-direction: column;
     }
+
+
+
 
 
 /* responsive */
