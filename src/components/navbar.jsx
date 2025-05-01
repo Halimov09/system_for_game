@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { removeItem } from '../helpers/persistance-storage';
 import { logoutUser} from '../slice/auth';
+import logout from "../constants/img/logouts.svg";
+import user from "../constants/img/user.svg";
 
 const Navbar = () => {
   const {isloggedIn, user} = useSelector(state => state.auth)
@@ -24,8 +26,14 @@ const Navbar = () => {
         <ul>
           {isloggedIn ? (
             <>
-            <p className='username'>{user.username}</p>
-            <button onClick={handleRemove} className='user_btn'>Chiqish</button>
+            <p className='username'>
+            <img src={user} alt="" />
+              {user.username}
+            </p>
+            <button onClick={handleRemove} className='user_btn'>
+              Chiqish
+              <img src={logout} alt="logout" />
+            </button>
             </>
           )
           : (

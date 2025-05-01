@@ -4,7 +4,9 @@ import { Loader } from '../ui'
 import { useNavigate } from 'react-router-dom'
 import barService from '../service/bar'
 import { getBarSucces, getItemDetailFailure, getItemDetailStart } from '../slice/bar'
-import Honalar from './honalar'
+import Honalar from './honalar';
+import  plus  from '../constants/img/plus.svg';
+import deleted from "../constants/img/delete.svg";
 
 
 const Bolimlar = () => {
@@ -44,7 +46,9 @@ const Bolimlar = () => {
     <div className='maintool'>
         <div className="nav_maintool">
           <h2>Bolimlar</h2>
-          <button onClick={() => navigate(`/CreateGame`)} className='bolim_btn kirish_btn'>Bo'lim qo'shish</button>
+          <button onClick={() => navigate(`/CreateGame`)} className='btnall bolim_btn kirish_btn'>
+            <img src={plus} alt="" />
+            Bo'lim qo'shish</button>
         </div>
         {isLoading && <Loader/>}
         <div className="maintool_card">
@@ -55,7 +59,9 @@ const Bolimlar = () => {
               </div>
               <h3>{item.name}</h3>
               <div className="maint_btns">
-              <button className='user_btn' onClick={() => deleteItem(item.id)}>O'chirish</button>
+              <button className='user_btn' onClick={() => deleteItem(item.id)}>
+                <img src={deleted} alt="" />
+                O'chirish</button>
               </div>
            </div>
           ))}

@@ -17,7 +17,7 @@ export const roomSessionSlice = createSlice({
         },
         getRoomSesSucces: (state, action) => {
             state.isLoading = false
-            state.rooms = action.payload;
+            state.sessions = action.payload;
         },
         getRoomSesFailure: (state, action) =>{
             state.error = action.payload
@@ -40,8 +40,21 @@ export const roomSessionSlice = createSlice({
         },
         postItemRoomSesSuccess: (state, action) =>{
             state.isLoading = false
+            state.sessions = (action.payload)
         },
         postItemRoomSesFailure: state =>{
+            state.isLoading = false
+            state.error = ("Nimadur xato ketdi")
+        },
+
+        putItemRoomSesStart: state =>{
+            state.isLoading = true
+        },
+        putItemRoomSesSuccess: (state, action) =>{
+            state.isLoading = false
+            state.sessions = (action.payload)
+        },
+        putItemRoomSesFailure: state =>{
             state.isLoading = false
             state.error = ("Nimadur xato ketdi")
         },
@@ -50,6 +63,7 @@ export const roomSessionSlice = createSlice({
 
 export const {getItemRoomSesFailure, getItemRoomSesStart, getItemRoomSesSuccess,
     getRoomSesStart, getRoomSesSucces, getRoomSesFailure,
-    postItemRoomSesStart, postItemRoomSesSuccess, postItemRoomSesFailure
+    postItemRoomSesStart, postItemRoomSesSuccess, postItemRoomSesFailure,
+    putItemRoomSesStart, putItemRoomSesSuccess, putItemRoomSesFailure
 } = roomSessionSlice.actions;
 export default roomSessionSlice.reducer;

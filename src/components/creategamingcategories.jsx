@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import barService from "../service/bar";
 import { getBarSucces, postItemDetailFailure, postItemDetailStart, postItemDetailSuccess } from "../slice/bar";
+import orqaga from "../constants/img/orqaga.svg";
+import plus from "../constants/img/plus.svg";
 
 const CreateGamingCategories = () => {
     const navigate = useNavigate()
@@ -87,12 +89,15 @@ const CreateGamingCategories = () => {
                 <button style={
                 {pointerEvents: isLoading ? 'none' : 'auto',
                 opacity: isLoading ? 0.5 : 1,}} className='kirish_btn'>
+                  <img src={plus} alt="" />
                     {isLoading ? "ILTIMOS KUTING..." : "Kiritish"}
                 </button>
            </form>
           </div>
         </div>
-        <button onClick={handleclose} className='user_btn btn_gaming'>orqaga</button>
+        <button onClick={handleclose} className='user_btn btnall btn_gaming'>
+          <img src={orqaga} alt="" />
+          orqaga</button>
     </div>
   )
 }
