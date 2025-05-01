@@ -18,8 +18,8 @@ const roomSessionService = {
       return data
     },
 
-    async putRoomSesId(id) {
-        const data = await axios.put(`gaming/sessions/${id}/`)
+    async putRoomSesId(id, session) {
+        const data = await axios.put(`gaming/sessions/${id}/`, session)
   
         return data
       },

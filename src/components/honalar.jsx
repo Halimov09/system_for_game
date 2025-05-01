@@ -7,10 +7,19 @@ import { getRoomSucces, postItemRoomFailure, postItemRoomStart, postItemRoomSucc
 import roomService from '../service/room';
 import { useNavigate } from 'react-router-dom';
 import roomSessionService from '../service/session';
-import { postItemRoomSesFailure, postItemRoomSesStart, postItemRoomSesSuccess } from '../slice/session';
+import plus from '../constants/img/plus.svg';
+import band from '../constants/img/boshlash.svg';
+import deleted from '../constants/img/delete.svg';
+import tohtat from '../constants/img/pause.svg';
+import { postItemRoomSesFailure, postItemRoomSesStart, postItemRoomSesSuccess, putItemRoomSesStart, putItemRoomSesSuccess } from '../slice/session';
 
 const Honalar = () => {
   const {rooms, isLoading} = useSelector(state => state.room)
+  const {session} = useSelector(state => state.session)
+
+  console.log(rooms);
+  
+  
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -45,7 +54,7 @@ const Honalar = () => {
   const handleVipClick = () => {
     setFormSession((prevState) => ({
       ...prevState,
-      session_type: "VIP",  // Vip tugma bosilganda session_type ni "VIP" qilib o'zgartiramiz
+      session_type: "vip",  // Vip tugma bosilganda session_type ni "VIP" qilib o'zgartiramiz
     }));
   };
 
@@ -107,40 +116,47 @@ const Honalar = () => {
     }
   };
 
+ 
   const handleSessionSubmit = async (e) => {
     e.preventDefault();
+  
     const session = {
       gaming_room: localStorage.getItem("selectedSesId"),
-      session_type: formSession.session_type,
-      fixed_duration_minutes: formSession.fixed_duration_minutes
+      session_type: formSession.session_type
+    };
+  
+    // Faqat agar session_type "fixed" bo‘lsa, fixed_duration_minutes ni qo‘shamiz
+    if (formSession.session_type === "fixed") {
+      session.fixed_duration_minutes = formSession.fixed_duration_minutes;
     }
-
-    dispatch(postItemRoomSesStart())
-    console.log(session);
-    
+  
+    dispatch(postItemRoomSesStart());
+  
     try {
-      const response = await roomSessionService.PostRomSes(session)
-      dispatch(postItemRoomSesSuccess())
-      console.log(response);
-      
+      const response = await roomSessionService.PostRomSes(session);
+      dispatch(postItemRoomSesSuccess(response.data));
+  
       const responses = await roomService.getRoom();
-      dispatch(getRoomSucces(responses.data));      
-      alert("Vaqt band qilindi")
-      navigate("/")
+      dispatch(getRoomSucces(responses.data));
+        
+  
+      alert("Vaqt band qilindi");
+      navigate("/Honalar");
     } catch (error) {
-      alert("Nimadur hato ketti")
-      dispatch(postItemRoomSesFailure())
-      navigate("/")
-      
+      alert("Nimadur hato ketti");
+      dispatch(postItemRoomSesFailure());
+      navigate("/");
     }
+  
     setFormSession({
       gaming_room: localStorage.getItem("selectedSesId"),
       session_type: '',
       fixed_duration_minutes: ''
     });
-    setOpen(false)
+  
+    setOpen(false);
   };
-
+  
 
 
   const deleteHandler = async (id) => {
@@ -178,6 +194,24 @@ const Honalar = () => {
       setActiveButton("vaqt"); // Vaqtni faollashtiramiz
     };
 
+    const stopHandle = async (sessionId) => {
+  
+      const selectedSesId = sessionId;
+      const sessionstop = {
+        is_active: false,
+      };
+      dispatch(putItemRoomSesStart())
+      try {
+        const response = await roomSessionService.putRoomSesId(selectedSesId, sessionstop)
+          dispatch(putItemRoomSesSuccess(response.data))
+          const responses = await roomService.getRoom();
+          dispatch(getRoomSucces(responses.data));
+          alert("O'yin to'xtatildi")
+
+      } catch (error) {
+        alert("Error stopping session:");
+      }
+    }
 
     const style = {
       position: 'absolute',
@@ -201,7 +235,9 @@ const Honalar = () => {
             aria-controls="panel1-content"
             id="panel1-header"
           >
-            <Typography component="span">O'yin qo'shish</Typography>
+            <Typography component="span" className='btnall'>O'yin qo'shish
+              <img src={plus} alt="" />
+            </Typography>
           </AccordionSummary>
           <AccordionDetails className="accordion-details">
             <Input 
@@ -274,7 +310,7 @@ const Honalar = () => {
                       O'yin band qilish
                       </Typography>
                         <form onSubmit={handleSessionSubmit}>
-                        <Button onClick={handleVipClick} variant="outlined" disabled={formSession.session_type === "VIP"}>
+                        <Button onClick={handleVipClick} variant="outlined" disabled={formSession.session_type === "vip"}>
                           Vip Ochish
                         </Button>
                         <Button onClick={handleVaqtlikClick} variant="outlined" disabled={formSession.session_type === "fixed"}>
@@ -295,26 +331,32 @@ const Honalar = () => {
                   </Fade>
                 </Modal>
                   
-                  <button style={item.is_occupied ? { display: "auto" } : {display: "none"}} class="book-button del_btn">To'htatish</button>
+                  <button onClick={() => stopHandle(item.active_session.id)}  style={item.is_occupied ? { display: "auto" } : {display: "none"}} className="book-button del_btn btnall">To'xtatish
+                    <img src={tohtat} alt="" />
+                  </button>
                 </div>
                 <div className="room_btns">
                 {!item.is_occupied && (
                     <>
                       <button
+
                         onClick={() => {
                           localStorage.setItem('selectedSesId', item.id);
                           handleOpen();
                         }}
-                        className="book-button"
+                        className="book-button btnall"
                       >
                         Band qilish
+                        <img src={band} alt="" />
                       </button>
 
                       <button
                         onClick={() => deleteHandler(item.id)}
-                        className="book-button del_btn"
+                        className="book-button del_btn btnall"
                       >
                         O'chirish
+                        <img src={deleted} alt="" />
+
                       </button>
                     </>
                   )}
