@@ -9,9 +9,9 @@ const Toolbar = ({onLinkClick}) => {
         <div className='toolbar'>
             <h2 className='h2_toolbar'>Asosiy</h2>
             <div className='toolbar_btns'>
+                <LinkMenu img={hisobot} name="Hisobotlar" onClick={onLinkClick}/>
                 <LinkMenu img={category} name="Bo'limlar" onClick={onLinkClick}/>
                 <LinkMenu img={ombor} name="Ombor" onClick={onLinkClick}/>
-                <LinkMenu img={hisobot} name="Hisobotlar" onClick={onLinkClick}/>
             </div>
         </div>
   )
