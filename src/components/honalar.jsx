@@ -138,6 +138,10 @@ const Honalar = () => {
   
       const responses = await roomService.getRoom();
       dispatch(getRoomSucces(responses.data));
+
+      const responseSession = await roomSessionService.getRoomSes();
+      console.log(responseSession);
+      
         
   
       alert("Vaqt band qilindi");
@@ -212,6 +216,26 @@ const Honalar = () => {
         alert("Error stopping session:");
       }
     }
+
+    useEffect(() => {
+      const fetchRoomData = async () => {
+        try {
+          const responses = await roomService.getRoom();
+          dispatch(getRoomSucces(responses.data));
+        } catch (error) {
+          console.error("Error fetching room data:", error);
+        }
+      };
+  
+      // Dastlab chaqirish
+      fetchRoomData();
+  
+      // Har 60 soniyada chaqirish
+      const intervalId = setInterval(fetchRoomData, 60000);
+  
+      // Component unmount bo‘lganda intervalni tozalash
+      return () => clearInterval(intervalId);
+    }, [dispatch]);
 
     const style = {
       position: 'absolute',

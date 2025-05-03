@@ -18,6 +18,10 @@ const Navbar = () => {
      dispatch(logoutUser());
      navigate("/login")
   }
+
+  const removehandle = () => {
+     localStorage.removeItem("user")
+  }
   
   return (
     <div className="navbar container">
@@ -39,7 +43,7 @@ const Navbar = () => {
           : (
             <>
             <Link to="/">Home</Link>
-            <Link to="/login">Login</Link>
+            <Link onClick={removehandle} to="/login">Login</Link>
             </>
           )}
         </ul>
