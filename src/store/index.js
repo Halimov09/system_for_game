@@ -3,7 +3,7 @@ import countReducer from '../reducers/count';
 import  authReducer  from '../slice/auth';
 import barsReducer from "../slice/bar";
 import roomsReducer from "../slice/room";
-import sesReducer from "../slice/room";
+import sesReducer from "../slice/session";
 
 export default configureStore({ reducer: countReducer, 
     reducer: {

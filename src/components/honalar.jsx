@@ -11,13 +11,15 @@ import plus from '../constants/img/plus.svg';
 import band from '../constants/img/boshlash.svg';
 import deleted from '../constants/img/delete.svg';
 import tohtat from '../constants/img/pause.svg';
-import { postItemRoomSesFailure, postItemRoomSesStart, postItemRoomSesSuccess, putItemRoomSesStart, putItemRoomSesSuccess } from '../slice/session';
+import { getRoomSesStart, getRoomSesSucces, postItemRoomSesFailure, postItemRoomSesStart, postItemRoomSesSuccess, putItemRoomSesStart, putItemRoomSesSuccess } from '../slice/session';
+import SessionList from './sessionList';
 
 const Honalar = () => {
   const {rooms, isLoading} = useSelector(state => state.room)
-  const {session} = useSelector(state => state.session)
+  const {sessions} = useSelector(state => state.session)
+  console.log(sessions);
+  
 
-  console.log(rooms);
   
   
   const [open, setOpen] = useState(false);
@@ -30,6 +32,22 @@ const Honalar = () => {
   
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchRoomSessions = async () => {
+      dispatch(getRoomSesStart());
+      try {
+        const response = await roomSessionService.getRoomSes();
+        dispatch(getRoomSesSucces(response.data));
+      } catch (error) {
+        console.log("Error fetching room sessions:", error);
+      }
+    };
+
+    fetchRoomSessions();
+  }, []);
+
+  console.log(sessions);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -391,6 +409,7 @@ const Honalar = () => {
               ))}
         </div>
       </div>
+      <SessionList sessions={sessions}/>
     </div>
   );
 };

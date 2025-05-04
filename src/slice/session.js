@@ -17,7 +17,7 @@ export const roomSessionSlice = createSlice({
         },
         getRoomSesSucces: (state, action) => {
             state.isLoading = false
-            state.sessions = action.payload;
+            state.sessions = action.payload;            
         },
         getRoomSesFailure: (state, action) =>{
             state.error = action.payload
