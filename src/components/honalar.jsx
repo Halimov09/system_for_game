@@ -139,7 +139,7 @@ const Honalar = () => {
     e.preventDefault();
   
     const session = {
-      gaming_room: localStorage.getItem("selectedSesId"),
+      gaming_room_id: localStorage.getItem("selectedSesId"),
       session_type: formSession.session_type
     };
   
@@ -171,7 +171,7 @@ const Honalar = () => {
     }
   
     setFormSession({
-      gaming_room: localStorage.getItem("selectedSesId"),
+      gaming_room_id: localStorage.getItem("selectedSesId"),
       session_type: '',
       fixed_duration_minutes: ''
     });
