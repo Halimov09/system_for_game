@@ -11,3 +11,4 @@ export {default as Register} from './register.jsx';
 export {default as ValidationError} from './validation-error.jsx';
 export {default as Creategamingcategories} from './creategamingcategories.jsx';
 export {default as SessionList} from './sessionList.jsx';
+export {default as IncomeChart} from './incomeChart.jsx';

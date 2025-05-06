@@ -1,4 +1,6 @@
+import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
 import React, { useState } from "react";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const formatTime = (dateStr) => {
   if (!dateStr) return "N/A";
@@ -16,6 +18,7 @@ const formatTime = (dateStr) => {
 
 const SessionList = ({ sessions }) => {
   const [visibleCount, setVisibleCount] = useState(10);
+  const [expandedId, setExpandedId] = useState(null); // 🔧 Yangi state
 
   const filteredSessions = Array.isArray(sessions)
     ? sessions.filter((s) => s.is_active === false)
@@ -23,28 +26,43 @@ const SessionList = ({ sessions }) => {
 
   const visibleSessions = filteredSessions.slice(0, visibleCount);
 
+  const handleChange = (id) => (event, isExpanded) => {
+    setExpandedId(isExpanded ? id : null);
+  };
+
   return (
     <div className="session-container">
       <h2 style={{ textAlign: "center", fontSize: "24px", marginBottom: "20px" }}>
         Inactive Sessions
       </h2>
-      <div className="session-grid">
         {visibleSessions.map((s) => (
-          <div className="session-card" key={s.id}>
-            <div className="session-title">Session ID: {s.id}</div>
-            <div className="session-text"><span className="session-label">Type:</span> {s.session_type}</div>
-            <div className="session-text"><span className="session-label">Current Price:</span> ${s.current_price}</div>
-            <div className="session-text"><span className="session-label">Total Price:</span> ${s.total_price}</div>
-            <div className="session-text"><span className="session-label">Gaming Room:</span> {s.gaming_room}</div>
-            <div className="session-text"><span className="session-label">Fixed Duration (min):</span> {s.fixed_duration_minutes ?? "N/A"}</div>
-            <div className="session-text"><span className="session-label">Start Time:</span> {formatTime(s.start_time)}</div>
-            <div className="session-text"><span className="session-label">End Time:</span> {formatTime(s.end_time)}</div>
-            <div className="session-text"><span className="session-label">Created At:</span> {formatTime(s.created_at)}</div>
-            <div className="session-text"><span className="session-label">Product Count:</span> {s.session_products?.length || 0}</div>
-            <div className="session-text"><span className="session-label">Active:</span> {s.is_active ? "Yes" : "No"}</div>
+          <div className="session-cards" key={s.id}>
+            <Accordion
+            className="accordion"
+            key={s.id} // 🎯 Har doim `key` qo‘shing
+            expanded={expandedId === s.id}
+            onChange={handleChange(s.id)}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon className="iconw" />}
+              aria-controls={`panel-${s.id}-content`}
+              id={`panel-${s.id}-header`}
+            >
+              <Typography component="span">
+                {s.gaming_room?.name || "Xona yo'q"}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <div className="session-text"><span className="session-label">Turi:</span> {s.session_type}</div>
+              <div className="session-text"><span className="session-label">Umumiy summasi:</span> {s.total_price}</div>
+              <div className="session-text"><span className="session-label">Boshlanich vaqti:</span> {formatTime(s.start_time)}</div>
+              <div className="session-text"><span className="session-label">Tugash vaqti:</span> {formatTime(s.end_time)}</div>
+              <div className="session-text"><span className="session-label">Olingan mahsulotlar:</span> {s.session_products?.length || 0}</div>
+              <div className="session-text"><span className="session-label">O'yin holati:</span> {s.is_active ? "Yes" : "No"}</div>
+            </AccordionDetails>
+          </Accordion>
           </div>
         ))}
-      </div>
 
       {visibleCount < filteredSessions.length && (
         <button className="show-more-button" onClick={() => setVisibleCount(c => c + 10)}>
