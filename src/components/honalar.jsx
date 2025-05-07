@@ -158,9 +158,7 @@ const Honalar = () => {
       dispatch(getRoomSucces(responses.data));
 
       const responseSession = await roomSessionService.getRoomSes();
-      console.log(responseSession);
-      
-        
+      dispatch(getRoomSesSucces(responseSession.data))
   
       alert("Vaqt band qilindi");
       navigate("/Honalar");
@@ -228,10 +226,13 @@ const Honalar = () => {
           dispatch(putItemRoomSesSuccess(response.data))
           const responses = await roomService.getRoom();
           dispatch(getRoomSucces(responses.data));
+          const responseSession = await roomSessionService.getRoomSes();
+          dispatch(getRoomSesSucces(responseSession.data))
           alert("O'yin to'xtatildi")
-
       } catch (error) {
         alert("Error stopping session:");
+        const responseSession = await roomSessionService.getRoomSes();
+        dispatch(getRoomSesSucces(responseSession.data))
       }
     }
 
