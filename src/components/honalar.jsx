@@ -166,7 +166,7 @@ const Honalar = () => {
   
       setShowAlert2(true); // alertni yoqamiz
 
-      setTimeout(() => setShowAlert2(false), 4000);
+      setTimeout(() => setShowAlert2(false), 5000);
       navigate("/Honalar");
     } catch (error) {
       alert("Nimadur hato ketti");
@@ -241,7 +241,7 @@ const Honalar = () => {
         setTotalPrice(updatedSession.total_price || "0.00");
     
         setShowAlert(true);
-        setTimeout(() => setShowAlert(false), 4000);
+        setTimeout(() => setShowAlert(false), 5000);
     
       } catch (error) {
         alert("Error stopping session:");
