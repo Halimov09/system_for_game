@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Typography, Button, colors, Modal, Box, Fade, Backdrop } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Typography, Button, colors, Modal, Box, Fade, Backdrop, Alert } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Input } from '../ui';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,8 +17,12 @@ import SessionList from './sessionList';
 const Honalar = () => {
   const {rooms, isLoading} = useSelector(state => state.room)
   const {sessions} = useSelector(state => state.session)
-  console.log(sessions);
-  
+  const [showAlert, setShowAlert] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(""); // yangi state
+
+  const [showAlert2, setShowAlert2] = useState(false);
+  const { hisobot } = useSelector(state => state.hisobot);
+
 
   
   
@@ -160,7 +164,9 @@ const Honalar = () => {
       const responseSession = await roomSessionService.getRoomSes();
       dispatch(getRoomSesSucces(responseSession.data))
   
-      alert("Vaqt band qilindi");
+      setShowAlert2(true); // alertni yoqamiz
+
+      setTimeout(() => setShowAlert2(false), 4000);
       navigate("/Honalar");
     } catch (error) {
       alert("Nimadur hato ketti");
@@ -215,26 +221,35 @@ const Honalar = () => {
     };
 
     const stopHandle = async (sessionId) => {
-  
       const selectedSesId = sessionId;
-      const sessionstop = {
-        is_active: false,
-      };
-      dispatch(putItemRoomSesStart())
+      const sessionstop = { is_active: false };
+    
+      dispatch(putItemRoomSesStart());
+    
       try {
-        const response = await roomSessionService.putRoomSesId(selectedSesId, sessionstop)
-          dispatch(putItemRoomSesSuccess(response.data))
-          const responses = await roomService.getRoom();
-          dispatch(getRoomSucces(responses.data));
-          const responseSession = await roomSessionService.getRoomSes();
-          dispatch(getRoomSesSucces(responseSession.data))
-          alert("O'yin to'xtatildi")
+        const response = await roomSessionService.putRoomSesId(selectedSesId, sessionstop);
+        dispatch(putItemRoomSesSuccess(response.data));
+    
+        const responses = await roomService.getRoom();
+        dispatch(getRoomSucces(responses.data));
+    
+        const responseSession = await roomSessionService.getRoomSes();
+        dispatch(getRoomSesSucces(responseSession.data));
+    
+        // 👇 response.data yoki responseSession.data orqali total_price ni olish
+        const updatedSession = response.data; // agar PUT'dan qaytsa shu bo'ladi
+        setTotalPrice(updatedSession.total_price || "0.00");
+    
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 4000);
+    
       } catch (error) {
         alert("Error stopping session:");
         const responseSession = await roomSessionService.getRoomSes();
-        dispatch(getRoomSesSucces(responseSession.data))
+        dispatch(getRoomSesSucces(responseSession.data));
       }
-    }
+    };
+    
 
     useEffect(() => {
       const fetchRoomData = async () => {
@@ -373,14 +388,27 @@ const Honalar = () => {
                     </Box>
                   </Fade>
                 </Modal>
-                  
+
+                      {showAlert2 && (
+                        <Alert variant="filled" severity="success">
+                          O'yin band qilindi!
+                        </Alert>
+                      )}
+
+                      {showAlert && (
+                        <Alert variant="filled" severity="success">
+                          O'yin to'xtatildi! Umumiy narx: {totalPrice} so'm
+                        </Alert>
+                      )}
+
+
                   <button onClick={() => stopHandle(item.active_session.id)}  style={item.is_occupied ? { display: "auto" } : {display: "none"}} className="book-button del_btn btnall">To'xtatish
                     <img src={tohtat} alt="" />
                   </button>
                 </div>
                 <div className="room_btns">
                 {!item.is_occupied && (
-                    <>
+                    <> 
                       <button
 
                         onClick={() => {
