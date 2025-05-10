@@ -5,6 +5,8 @@ import barsReducer from "../slice/bar";
 import roomsReducer from "../slice/room";
 import sesReducer from "../slice/session";
 import hisobReducer from "../slice/hisobot";
+import omborReducer from "../slice/ombor";
+import omborCtegoryReducer from "../slice/omborCategory";
 
 export default configureStore({ reducer: countReducer, 
     reducer: {
@@ -13,6 +15,8 @@ export default configureStore({ reducer: countReducer,
         room: roomsReducer,
         session: sesReducer,
         hisobot: hisobReducer,
+        ombor: omborReducer,
+        omborCategory: omborCtegoryReducer,
     },
     devTools: process.env.NODE_ENV !== 'production',
 });
