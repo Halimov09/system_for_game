@@ -163,7 +163,7 @@ input{
     position: absolute;
     right: 40px;
     top: 110px;
-    padding: 0px 24px 24px 24px;
+    padding: 24px ;
 }
 
 .toogle_section{
@@ -630,6 +630,23 @@ input{
   .toggle_btn{
     font-size: 40px;
   }
+
+  .add_input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
 
 
 

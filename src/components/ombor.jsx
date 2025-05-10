@@ -1,8 +1,11 @@
 import React from 'react'
+import OmborCategory from './omborCategory'
 
 const Ombor = () => {
   return (
-    <div className='maintool'>Ombor</div>
+    <div className='maintool'>
+      <OmborCategory/>
+    </div>
   )
 }
 
