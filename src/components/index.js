@@ -12,4 +12,6 @@ export {default as ValidationError} from './validation-error.jsx';
 export {default as Creategamingcategories} from './creategamingcategories.jsx';
 export {default as SessionList} from './sessionList.jsx';
 export {default as IncomeChart} from './incomeChart.jsx';
-export {default as OmborCategory} from "./omborCategory.jsx"
+export {default as OmborCategory} from "./omborCategory.jsx";
+export {default as AddProduct} from "./addProduct.jsx";
+export {default as Mahsulot} from "./mahsulot.jsx";

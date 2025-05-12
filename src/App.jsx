@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Bolimlar, Hisobotlar, Honalar, Login, Main, Navbar, Ombor, Register } from './components';
+import { Bolimlar, Hisobotlar, Honalar, Login, Mahsulot, Main, Navbar, Ombor, Register } from './components';
 import { Route, Routes } from 'react-router-dom';
 import authService from './service/auth';
 import { useEffect } from 'react';
@@ -57,6 +57,7 @@ function App() {
       <Route path="/Hisobotlar" element={<Hisobotlar />} />
       <Route path="/Registironlyfordeveloper" element={<Register />} />
       <Route path="/Gaming/:id" element={<Gaming />} />
+      <Route path="/Savdo" element={<Mahsulot />} />
       <Route path="/CreateGame" element={<CreateGamingCategories />} />
      </Routes>
     </div>
