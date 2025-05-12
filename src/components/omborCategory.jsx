@@ -22,6 +22,7 @@ import {
 } from '../slice/omborCategory';
 import omborCategoryService from '../service/omborCategory';
 import { Input } from '../ui';
+import AddProduct from './addProduct';
 
 const OmborCategoryForm = () => {
   const dispatch = useDispatch();
@@ -88,7 +89,7 @@ const OmborCategoryForm = () => {
         console.log(response.data);
         
       } catch (error) {
-        console.error("Kategoriya olishda xatolik:", error);
+        console.error("Kategoriya olishda xatolik:");
       }
     })();
   }, []);
@@ -99,7 +100,7 @@ const OmborCategoryForm = () => {
     {/* 1-Accordion: Kategoriya qo‘shish formasi */}
     <Accordion sx={{ backgroundColor: '#1f2937', border: '1px solid white', color: '#fff' }}>
       <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}>
-        <Typography variant="h6">+ Yangi ro'yhat yaratish</Typography>
+        <Typography variant="h6">+ Yangi ombor yaratish</Typography>
       </AccordionSummary>
   
       <AccordionDetails>
@@ -147,7 +148,7 @@ const OmborCategoryForm = () => {
             disabled={loading}
             sx={{ height: '45px' }}
           >
-            {loading ? 'Loading...' : 'Submit'}
+            {loading ? 'Kutip turing...' : 'Yuborish'}
           </Button>
         </form>
       </AccordionDetails>
@@ -188,14 +189,8 @@ const OmborCategoryForm = () => {
             alt={item.name}
             style={{ width: '100%', height: '180px', objectFit: 'cover' }}
           />
-          <div style={{ padding: '12px' }}>
-            <Typography variant="h6" gutterBottom>{item.name}</Typography>
-            {item.owner && (
-              <Typography variant="body2" color="text.white">
-                Owner: {item.owner}
-              </Typography>
-            )}
-          </div>
+          
+          <AddProduct categoryId={item.id} />
         </div>
       </AccordionDetails>
     </Accordion>

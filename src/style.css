@@ -142,6 +142,11 @@ input{
     display: block;
     padding: 10px 20px;
     border-radius: 10px;
+    font-size: 20px;
+}
+
+.link_menu img{
+  width: 44px !important;
 }
 
 .active_link {
@@ -170,6 +175,11 @@ input{
     margin-top: 80px;
 }
 
+
+.add_btn{
+   background-color: #007bff !important;
+   color: white !important;
+}
 
 
 .toogle_section{
@@ -403,7 +413,7 @@ input{
   .user_btn, .btnall, .link_menu {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
   }
 
 .del_btn, .room-content {
