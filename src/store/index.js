@@ -7,6 +7,7 @@ import sesReducer from "../slice/session";
 import hisobReducer from "../slice/hisobot";
 import omborReducer from "../slice/ombor";
 import omborCtegoryReducer from "../slice/omborCategory";
+import prodSeesionReducer from "../slice/prodSession";
 
 export default configureStore({ reducer: countReducer, 
     reducer: {
@@ -17,6 +18,7 @@ export default configureStore({ reducer: countReducer,
         hisobot: hisobReducer,
         ombor: omborReducer,
         omborCategory: omborCtegoryReducer,
+        prodSeesion: prodSeesionReducer,
     },
     devTools: process.env.NODE_ENV !== 'production',
 });
