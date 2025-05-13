@@ -80,15 +80,19 @@ const Mahsulot = () => {
       <h2 className="title">Mahsulotlar ro‘yxati</h2>
 
       <div className="product-wrapper">
-        {ombor.map(product => (
-          <div key={product.id} className="product-card">
-            <img src={product.category_detail.image} alt={product.name} className="product-img" />
-            <h3>{product.name}</h3>
-            <p>Narxi: {product.price} so'm</p>
-            <p>Soni: {product.stock} dona</p>
-            <button onClick={() => handleOpen(product.id)} className="btn">Sessionga qo‘shish</button>
-          </div>
-        ))}
+       {ombor && ombor.length > 0 ? (
+          ombor.map(product => (
+            <div key={product.id} className="product-card">
+              <img src={product.category_detail.image} alt={product.name} className="product-img" />
+              <h3>{product.name}</h3>
+              <p>Narxi: {product.price} so'm</p>
+              <p>Soni: {product.stock} dona</p>
+              <button onClick={() => handleOpen(product.id)} className="btn">Sessionga qo‘shish</button>
+            </div>
+          ))
+        ) : (
+          <p>Mahsulotlar yuklanmoqda...</p>
+        )}
       </div>
 
       {open && (
