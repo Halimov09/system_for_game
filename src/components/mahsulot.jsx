@@ -13,10 +13,19 @@ const Mahsulot = () => {
   const { sessions } = useSelector(state => state.session);
 
   const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+
   const [formData, setFormData] = useState({
     session: '',
     product: '',
     quantity: ''
+  });
+
+  const [editData, setEditData] = useState({
+    id: '',
+    name: '',
+    price: '',
+    stock: ''
   });
 
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -29,14 +38,11 @@ const Mahsulot = () => {
 
         const sesRes = await roomSessionService.getRoomSes();
         dispatch(getRoomSesSucces(sesRes.data));
-        
       } catch (error) {
         alert('Xatolik: Ma’lumotlar yuklanmadi');
       }
     };
 
-    console.log(sessions);
-    
     getData();
   }, []);
 
@@ -46,9 +52,24 @@ const Mahsulot = () => {
     setOpen(true);
   };
 
+  const handleEditOpen = (product) => {
+    setEditData({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      stock: product.stock
+    });
+    setEditOpen(true);
+  };
+
   const handleClose = () => {
     setOpen(false);
     setFormData({ session: '', product: '', quantity: '' });
+  };
+
+  const handleEditClose = () => {
+    setEditOpen(false);
+    setEditData({ id: '', name: '', price: '', stock: '' });
   };
 
   const handleChange = (e) => {
@@ -56,12 +77,18 @@ const Mahsulot = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditData(prev => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = async () => {
-    if (!formData.session || !formData.quantity) return alert("Barcha maydonlar to‘ldirilsin");
+    if (!formData.session || !formData.quantity)
+      return alert("Barcha maydonlar to‘ldirilsin");
 
     try {
       await prodSessionService.postOmborSession(formData);
-      alert('Mahsulot muvaffaqiyatli qo‘shildi!');
+      alert('Mahsulot sessionga qo‘shildi!');
       const sesRes = await roomSessionService.getRoomSes();
       dispatch(getRoomSesSucces(sesRes.data));
       handleClose();
@@ -71,23 +98,64 @@ const Mahsulot = () => {
     }
   };
 
+  const handleEditSubmit = async () => {
+    try {
+      const original = await omborService.getOmborId(editData.id);
+
+      const updatedData = {
+        name: editData.name,
+        price: editData.price,
+        stock: editData.stock,
+        image: original.data.image,
+        category: original.data.category
+      };
+
+      await omborService.putOmborId(editData.id, updatedData);
+      alert('Mahsulot muvaffaqiyatli tahrirlandi!');
+
+      const response = await omborService.getOmbor();
+      dispatch(getOmborSucces(response.data));
+      handleEditClose();
+    } catch (error) {
+      alert('Tahrirlashda xatolik yuz berdi!');
+      handleEditClose();
+    }
+  };
+
+  const handleDelete = async (productId) => {
+  const isConfirmed = window.confirm("Rostdan ham ushbu mahsulotni o‘chirmoqchimisiz?");
+  if (!isConfirmed) return;
+
+  try {
+    await omborService.deleteOmborId(productId);
+    alert("Mahsulot muvaffaqiyatli o‘chirildi!");
+
+    // O'chirgandan keyin yangilab olamiz
+    const response = await omborService.getOmbor();
+    dispatch(getOmborSucces(response.data));
+  } catch (error) {
+    alert("Mahsulotni o‘chirishda xatolik yuz berdi.");
+  }
+};
+
+
   const activeSessions = sessions ? sessions.filter(s => s.is_active) : [];
 
-  console.log(activeSessions);
-  
   return (
     <div className="maintool">
       <h2 className="title">Mahsulotlar ro‘yxati</h2>
 
       <div className="product-wrapper">
-       {ombor && ombor.length > 0 ? (
+        {ombor && ombor.length > 0 ? (
           ombor.map(product => (
             <div key={product.id} className="product-card">
               <img src={product.category_detail.image} alt={product.name} className="product-img" />
               <h3>{product.name}</h3>
               <p>Narxi: {product.price} so'm</p>
               <p>Soni: {product.stock} dona</p>
-              <button onClick={() => handleOpen(product.id)} className="btn">Sessionga qo‘shish</button>
+              <button onClick={() => handleOpen(product.id)} className="btn">mahsulotni sotish</button>
+              <button onClick={() => handleEditOpen(product)} className="btn edit">Tahrirlash</button>
+              <button onClick={() => handleDelete(product.id)} className="btn delete">O‘chirish</button>
             </div>
           ))
         ) : (
@@ -95,10 +163,11 @@ const Mahsulot = () => {
         )}
       </div>
 
+      {/* Sessionga qo‘shish modal */}
       {open && (
         <div className="modal-overlay">
           <div className="modal">
-            <h3>honalarga sotish</h3>
+            <h3>Honalarga sotish</h3>
 
             <label className="dropdown-label">Session tanlang:</label>
             <select
@@ -109,10 +178,9 @@ const Mahsulot = () => {
             >
               <option value="">-- Tanlang --</option>
               {activeSessions.map(s => (
-                <option className='optionses' key={s.id} value={s.id}>
-                {s.gaming_room ? s.gaming_room.name : 'Nomaʼlum xona'}
-              </option>
-
+                <option key={s.id} value={s.id}>
+                  {s.gaming_room ? s.gaming_room.name : 'Nomaʼlum xona'}
+                </option>
               ))}
             </select>
 
@@ -127,6 +195,42 @@ const Mahsulot = () => {
             <div className="modal-actions">
               <button className="btn" onClick={handleSubmit}>Qo‘shish</button>
               <button className="btn cancel" onClick={handleClose}>Bekor qilish</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Tahrirlash modal */}
+      {editOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Mahsulotni tahrirlash</h3>
+
+            <Input
+              label="Nomi"
+              type="text"
+              name="name"
+              value={editData.name}
+              onChange={handleEditChange}
+            />
+            <Input
+              label="Narxi"
+              type="text"
+              name="price"
+              value={editData.price}
+              onChange={handleEditChange}
+            />
+            <Input
+              label="Soni"
+              type="number"
+              name="stock"
+              value={editData.stock}
+              onChange={handleEditChange}
+            />
+
+            <div className="modal-actions">
+              <button className="btn" onClick={handleEditSubmit}>Saqlash</button>
+              <button className="btn cancel" onClick={handleEditClose}>Bekor qilish</button>
             </div>
           </div>
         </div>

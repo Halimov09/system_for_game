@@ -38,7 +38,7 @@ const AddProduct = ({ categoryId }) => {
       });
 
       dispatch(postItemOmborSuccess());
-      alert('Product added successfully!');
+      alert('Muvaffaqiyatlik yaratildi!');
 
       setProduct({ name: '', price: '', stock: '', category: categoryId });
 
@@ -53,27 +53,27 @@ const AddProduct = ({ categoryId }) => {
   return (
     <form onSubmit={handleSubmit} className="add_product_form">
       <Input
-        label="Product Name"
+        label="Mahsulot nomi"
         name="name"
         type="text"
         value={product.name}
         onChange={handleChange}
       />
       <Input
-        label="Price"
+        label="Mahsulot narhi"
         name="price"
         type="number"
         value={product.price}
         onChange={handleChange}
       />
       <Input
-        label="Stock"
+        label="Mahsulot narhi"
         name="stock"
         type="number"
         value={product.stock}
         onChange={handleChange}
       />
-      <Button type="submit" className="add_btn">Add Product</Button>
+      <Button type="submit" className="add_btn">Saqlash</Button>
     </form>
   );
 };
