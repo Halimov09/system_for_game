@@ -18,6 +18,11 @@ const omborService = {
       return data
     },
 
+    async putOmborId(id, updatedData) {
+      const data = await axios.put(`bar/products/${id}/`, updatedData);
+      return data;
+    },
+
     async postOmbor(ombor) {
       const data = await axios.post(`bar/products/`, ombor)
 
