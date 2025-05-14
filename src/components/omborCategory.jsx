@@ -159,42 +159,19 @@ const OmborCategoryForm = () => {
     Mavjud ro'yhatlar
   </Typography>
 
-  {category.map(item => (
-    <Accordion
-    className='accordion'
-      key={item.id}
-      sx={{
-        backgroundColor: 'rgb(31 41 55)',
-        border: '1px solid white',
-        color: '#fff',
-        marginBottom: '16px',
-        width: '100%'
-      }}
-    >
-      <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}>
-        <Typography>{item.name}</Typography>
-      </AccordionSummary>
-
-      <AccordionDetails>
-        <div
-          style={{
-            width: '100%',
-            borderRadius: '8px',
-            overflow: 'hidden',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
-          }}
-        >
-          <img
-            src={item.image}
-            alt={item.name}
-            style={{ width: '100%', height: '180px', objectFit: 'cover' }}
-          />
-          
-          <AddProduct categoryId={item.id} />
-        </div>
-      </AccordionDetails>
-    </Accordion>
-  ))}
+  {Array.isArray(category) && category.map(item => (
+      <Accordion key={item.id} className="accordion" sx={{ backgroundColor: 'rgb(31 41 55)', border: '1px solid white', color: '#fff', marginBottom: '16px', width: '100%' }}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}>
+          <Typography>{item.name}</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <div style={{ width: '100%', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.2)' }}>
+            <img src={item.image} alt={item.name} style={{ width: '100%', height: '180px', objectFit: 'cover' }} />
+            <AddProduct categoryId={item.id} />
+          </div>
+        </AccordionDetails>
+      </Accordion>
+    ))}
 </div>
 
   </div>

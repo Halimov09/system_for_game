@@ -25,7 +25,9 @@ const SessionList = ({ sessions }) => {
       .filter((s) => s.is_active === false)
       .sort((a, b) => new Date(b.end_time) - new Date(a.end_time)) // 🔥 Teskari sort
   : [];
-
+  
+  console.log(sessions);
+  
 
   const visibleSessions = filteredSessions.slice(0, visibleCount);
 

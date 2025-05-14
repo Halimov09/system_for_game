@@ -826,8 +826,20 @@ p{
   color: white;
 }
 
+.chiqish_btn{
+  background-color: red !important;
+  color: white !important;
+  width: 100% !important;
+  margin-top: 20px !important;
+}
 
+.MuiPaper-root{
+  background-color: rgb(17 24 39) !important;
+}
 
+.color, label{
+  color: white !important;
+}
 
 
 /* responsive */
