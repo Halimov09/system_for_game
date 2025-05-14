@@ -83,20 +83,26 @@ const Mahsulot = () => {
   };
 
   const handleSubmit = async () => {
-    if (!formData.session || !formData.quantity)
-      return alert("Barcha maydonlar to‘ldirilsin");
+  if (!formData.session || !formData.quantity)
+    return alert("Barcha maydonlar to‘ldirilsin");
 
-    try {
-      await prodSessionService.postOmborSession(formData);
-      alert('Mahsulot sessionga qo‘shildi!');
-      const sesRes = await roomSessionService.getRoomSes();
-      dispatch(getRoomSesSucces(sesRes.data));
-      handleClose();
-    } catch (error) {
-      alert('Xatolik yuz berdi!');
-      handleClose();
-    }
-  };
+  try {
+    await prodSessionService.postOmborSession(formData);
+    alert('Mahsulot sessionga qo‘shildi!');
+
+    // YANGILIK: omborni yana get qilib olish
+    const updatedOmbor = await omborService.getOmbor();
+    dispatch(getOmborSucces(updatedOmbor.data));
+
+    const sesRes = await roomSessionService.getRoomSes();
+    dispatch(getRoomSesSucces(sesRes.data));
+    handleClose();
+  } catch (error) {
+    alert('Xatolik yuz berdi!');
+    handleClose();
+  }
+};
+
 
   const handleEditSubmit = async () => {
     try {
