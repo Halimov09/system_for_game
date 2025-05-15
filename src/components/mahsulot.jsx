@@ -6,6 +6,7 @@ import { getOmborSucces } from '../slice/ombor';
 import { getRoomSesSucces } from '../slice/session';
 import { Input } from '../ui';
 import prodSessionService from '../service/prodsession';
+import { toast } from 'react-toastify';
 
 const Mahsulot = () => {
   const dispatch = useDispatch();
@@ -35,11 +36,10 @@ const Mahsulot = () => {
       try {
         const response = await omborService.getOmbor();
         dispatch(getOmborSucces(response.data));
-
         const sesRes = await roomSessionService.getRoomSes();
         dispatch(getRoomSesSucces(sesRes.data));
       } catch (error) {
-        alert('Xatolik: Ma’lumotlar yuklanmadi');
+        toast.error('Xatolik: Ma’lumotlar yuklanmadi');
       }
     };
 
@@ -84,11 +84,11 @@ const Mahsulot = () => {
 
   const handleSubmit = async () => {
   if (!formData.session || !formData.quantity)
-    return alert("Barcha maydonlar to‘ldirilsin");
+    return toast.warning("Barcha maydonlar to‘ldirilsin");
 
   try {
     await prodSessionService.postOmborSession(formData);
-    alert('Mahsulot sessionga qo‘shildi!');
+    toast.success('Mahsulot sessionga qo‘shildi!');
 
     // YANGILIK: omborni yana get qilib olish
     const updatedOmbor = await omborService.getOmbor();
@@ -98,7 +98,7 @@ const Mahsulot = () => {
     dispatch(getRoomSesSucces(sesRes.data));
     handleClose();
   } catch (error) {
-    alert('Xatolik yuz berdi!');
+    toast.error('Xatolik yuz berdi!');
     handleClose();
   }
 };
@@ -117,13 +117,13 @@ const Mahsulot = () => {
       };
 
       await omborService.putOmborId(editData.id, updatedData);
-      alert('Mahsulot muvaffaqiyatli tahrirlandi!');
+      toast.success('Mahsulot muvaffaqiyatli tahrirlandi!');
 
       const response = await omborService.getOmbor();
       dispatch(getOmborSucces(response.data));
       handleEditClose();
     } catch (error) {
-      alert('Tahrirlashda xatolik yuz berdi!');
+      toast.error('Tahrirlashda xatolik yuz berdi!');
       handleEditClose();
     }
   };
@@ -134,13 +134,13 @@ const Mahsulot = () => {
 
   try {
     await omborService.deleteOmborId(productId);
-    alert("Mahsulot muvaffaqiyatli o‘chirildi!");
+    toast.success("Mahsulot muvaffaqiyatli o‘chirildi!");
 
     // O'chirgandan keyin yangilab olamiz
     const response = await omborService.getOmbor();
     dispatch(getOmborSucces(response.data));
   } catch (error) {
-    alert("Mahsulotni o‘chirishda xatolik yuz berdi.");
+    toast.error("Mahsulotni o‘chirishda xatolik yuz berdi.");
   }
 };
 

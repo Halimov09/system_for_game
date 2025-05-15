@@ -8,6 +8,7 @@ import {ValidationError} from './';
 import { useNavigate } from 'react-router-dom';
 import { getBarSucces } from '../slice/bar';
 import barService from '../service/bar';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [show, setShow] = useState(true);
@@ -43,12 +44,11 @@ const Login = () => {
       dispatch(signUserSucces(response.data)) 
       const responses = await barService.getBar()
       dispatch(getBarSucces(responses.data))
-      console.log(response.data);
-      console.log(user);
-      
+      toast.success("Muvaffaqiyatlik bajarildi")
       navigate('/')
     } catch (error) {
       dispatch(signUserFailure(error.response)) 
+      toast.error("Hatolik yuz berdi")
     }
     setFormData({
       username: '',

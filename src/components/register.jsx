@@ -6,6 +6,7 @@ import { logo } from '../constants';
 import authService from '../service/auth';
 import {ValidationError} from './';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const [show, setShow] = useState(true);
@@ -39,10 +40,11 @@ const Register = () => {
     try{
         const response = await authService.register(user)
         dispatch(signUserSucces(response.data))
-        alert(response.data.message)
+        toast.success(response.data.message)
         navigate('/login')
     }catch (error) {
         dispatch(signUserFailure(error.response))
+        toast.error("Hatolik yuz berdi")
     }
 
     console.log('Form data:', formData);
