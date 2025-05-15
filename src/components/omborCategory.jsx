@@ -23,6 +23,7 @@ import {
 import omborCategoryService from '../service/omborCategory';
 import { Input } from '../ui';
 import AddProduct from './addProduct';
+import { toast } from 'react-toastify';
 
 const OmborCategoryForm = () => {
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ const OmborCategoryForm = () => {
 
       const res = await omborCategoryService.postOmborCategory(data);
       dispatch(postOmborCategorySuccess(res.data));
+      toast.success("Muvaffaqiyatlik bajarildi")
       setAlert({ type: 'success', message: 'Muvaffaqiyatli yaratildi!' });
       setFormData({ name: '', image: null });
 
@@ -76,6 +78,7 @@ const OmborCategoryForm = () => {
     } catch (error) {
       dispatch(postOmborCategoryFailure(error.message));
       setAlert({ type: 'error', message: 'Xatolik: ' + error.message });
+      toast.error("Hatolik yuz berdi")
     } finally {
       setLoading(false);
     }
@@ -86,10 +89,10 @@ const OmborCategoryForm = () => {
       try {
         const response = await omborCategoryService.getOmborCategory();
         dispatch(getOmborCategorySucces(response.data));
-        console.log(response.data);
+        toast.success("Muvaffaqiyatlik bajarildi")
         
       } catch (error) {
-        console.error("Kategoriya olishda xatolik:");
+        toast.error("Kategoriya olishda xatolik:");
       }
     })();
   }, []);

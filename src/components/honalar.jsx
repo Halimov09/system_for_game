@@ -13,6 +13,7 @@ import deleted from '../constants/img/delete.svg';
 import tohtat from '../constants/img/pause.svg';
 import { getRoomSesStart, getRoomSesSucces, postItemRoomSesFailure, postItemRoomSesStart, postItemRoomSesSuccess, putItemRoomSesStart, putItemRoomSesSuccess } from '../slice/session';
 import SessionList from './sessionList';
+import { toast } from 'react-toastify';
 
 const Honalar = () => {
   const {rooms, isLoading} = useSelector(state => state.room)
@@ -43,6 +44,7 @@ const Honalar = () => {
       try {
         const response = await roomSessionService.getRoomSes();
         dispatch(getRoomSesSucces(response.data));
+        toast.success("Malumotlar muvaffaqiyatlik olindi")
       } catch (error) {
         console.log("Error fetching room sessions:", error);
       }
@@ -104,9 +106,9 @@ const Honalar = () => {
       dispatch(postItemRoomSuccess())
       const responses = await roomService.getRoom();
       dispatch(getRoomSucces(responses.data));      
-      alert("Muvaffaqiyatlik yaratildi")
+      toast.success("Muvaffaqiyatlik yaratildi")
     } catch (error) {
-      alert("Nimadur hato ketti")
+      toast.error("Nimadur hato ketti")
       dispatch(postItemRoomFailure())
       navigate("/")
       
@@ -167,9 +169,10 @@ const Honalar = () => {
       setShowAlert2(true); // alertni yoqamiz
 
       setTimeout(() => setShowAlert2(false), 5000);
+      toast.success("Muvaffaqiyatlik bajarildi")
       navigate("/Honalar");
     } catch (error) {
-      alert("Nimadur hato ketti");
+      toast.error("Nimadur hato ketti");
       dispatch(postItemRoomSesFailure());
       navigate("/");
     }
@@ -190,9 +193,9 @@ const Honalar = () => {
       await roomService.deleteRoom(id)
       const response = await roomService.getRoom(id)
       dispatch(getRoomSucces(response.data))
-      alert("O'chirildi")
+      toast.success("O'chirildi")
     } catch (error) {
-      alert("Error deleting room:");
+      toast.error("Error deleting room:");
     }
   }
 
@@ -239,12 +242,13 @@ const Honalar = () => {
         // 👇 response.data yoki responseSession.data orqali total_price ni olish
         const updatedSession = response.data; // agar PUT'dan qaytsa shu bo'ladi
         setTotalPrice(updatedSession.total_price || "0.00");
+        toast.success("Muvaffaqiyatlik bajarildi")
     
         setShowAlert(true);
         setTimeout(() => setShowAlert(false), 5000);
     
       } catch (error) {
-        alert("Error stopping session:");
+        toast.error("Hatolik yuz berdi");
         const responseSession = await roomSessionService.getRoomSes();
         dispatch(getRoomSesSucces(responseSession.data));
       }
@@ -256,8 +260,9 @@ const Honalar = () => {
         try {
           const responses = await roomService.getRoom();
           dispatch(getRoomSucces(responses.data));
+          toast.success("Muvaffaqiyatlik bajarildi")
         } catch (error) {
-          console.error("Error fetching room data:", error);
+          toast.error("Hatolik yuz berdi");
         }
       };
   
