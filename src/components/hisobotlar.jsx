@@ -5,6 +5,7 @@ import hisobotService from '../service/hisobot';
 import IncomeChart from './incomeChart';
 import { toast } from 'react-toastify';
 import Expenses from './expenses';
+import YouTubeModal from './youtubecomponent';
 
 const Hisobotlar = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,9 @@ const Hisobotlar = () => {
 
   return (
     <div className='maintool'>
+    <div className="yout">
+      <YouTubeModal videoId="y4j7s_yDbpQ" buttonText="Videoni ko‘rish" />
+    </div>
       <div className="hisobotlar-container">
         <h2 className="hisobotlar-title h2_toolbar">Hisobotlar</h2>
 

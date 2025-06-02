@@ -7,6 +7,7 @@ import { getRoomSesSucces } from '../slice/session';
 import { Input } from '../ui';
 import prodSessionService from '../service/prodsession';
 import { toast } from 'react-toastify';
+import YouTubeModal from './youtubecomponent';
 
 const Mahsulot = () => {
   const dispatch = useDispatch();
@@ -149,6 +150,7 @@ const Mahsulot = () => {
 
   return (
     <div className="maintool">
+      <YouTubeModal videoId="MPPw6xPuZjY" buttonText="Videoni ko‘rish" />
       <h2 className="title">Mahsulotlar ro‘yxati</h2>
 
       <div className="product-wrapper">

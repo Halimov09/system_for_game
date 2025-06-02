@@ -24,6 +24,7 @@ import omborCategoryService from '../service/omborCategory';
 import { Input } from '../ui';
 import AddProduct from './addProduct';
 import { toast } from 'react-toastify';
+import YouTubeModal from './youtubecomponent';
 
 const OmborCategoryForm = () => {
   const dispatch = useDispatch();
@@ -100,8 +101,9 @@ const OmborCategoryForm = () => {
 
   return (
     <div>
+      <YouTubeModal videoId="MPPw6xPuZjY" buttonText="Videoni ko‘rish" />
     {/* 1-Accordion: Kategoriya qo‘shish formasi */}
-    <Accordion sx={{ backgroundColor: '#1f2937', border: '1px solid white', color: '#fff' }}>
+    <Accordion sx={{ backgroundColor: '#1f2937', border: '1px solid white', color: '#fff', marginTop: '24px'  }}>
       <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}>
         <Typography variant="h6">+ Yangi ombor yaratish</Typography>
       </AccordionSummary>

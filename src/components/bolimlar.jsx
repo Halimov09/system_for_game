@@ -7,6 +7,7 @@ import { getBarSucces, getItemDetailFailure, getItemDetailStart, getItemDetailSu
 import plus from '../constants/img/plus.svg'
 import deleted from "../constants/img/delete.svg"
 import { toast } from 'react-toastify'
+import YouTubeModal from './youtubecomponent'
 
 const Bolimlar = () => {
   const { bars, isLoading } = useSelector(state => state.bar)
@@ -46,6 +47,7 @@ const Bolimlar = () => {
 
   return (
     <div className='maintool'>
+      <YouTubeModal videoId="5G6jO9a4RmY" buttonText="Videoni ko‘rish" />
       <div className="nav_maintool">
         <h2>Bo‘limlar</h2>
         <button onClick={() => navigate(`/CreateGame`)} className='btnall bolim_btn kirish_btn'>
