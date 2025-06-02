@@ -4,6 +4,7 @@ import { getHisobFailure, getHisobStart, getHisobSucces } from '../slice/hisobot
 import hisobotService from '../service/hisobot';
 import IncomeChart from './incomeChart';
 import { toast } from 'react-toastify';
+import Expenses from './expenses';
 
 const Hisobotlar = () => {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ const Hisobotlar = () => {
         </div>
 
         <IncomeChart data={hisobot} type={type} />
+        <Expenses />
       </div>
     </div>
   );
