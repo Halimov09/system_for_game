@@ -14,6 +14,7 @@ import tohtat from '../constants/img/pause.svg';
 import { getRoomSesStart, getRoomSesSucces, postItemRoomSesFailure, postItemRoomSesStart, postItemRoomSesSuccess, putItemRoomSesStart, putItemRoomSesSuccess } from '../slice/session';
 import SessionList from './sessionList';
 import { toast } from 'react-toastify';
+import YouTubeModal from './youtubecomponent';
 
 const Honalar = () => {
   const {rooms, isLoading} = useSelector(state => state.room)
@@ -290,6 +291,7 @@ const Honalar = () => {
 
   return (
     <div className="maintool">
+      <YouTubeModal videoId="5G6jO9a4RmY" buttonText="Videoni ko‘rish" />
       <div className="honalar-header">
         <h2 className="honalar-title">O'yinlar</h2>
         <Accordion className="accordion">
