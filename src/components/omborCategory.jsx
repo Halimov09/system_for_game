@@ -101,7 +101,7 @@ const OmborCategoryForm = () => {
 
   return (
     <div>
-      <YouTubeModal videoId="MPPw6xPuZjY" buttonText="Videoni ko‘rish" />
+      <YouTubeModal videoId="MPPw6xPuZjY" buttonText="Foydalanish uchun qo'llanma" />
     {/* 1-Accordion: Kategoriya qo‘shish formasi */}
     <Accordion sx={{ backgroundColor: '#1f2937', border: '1px solid white', color: '#fff', marginTop: '24px'  }}>
       <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}>

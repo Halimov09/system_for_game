@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../style.css";
 
-const YouTubeModal = ({ videoId, buttonText = "Videoni ko‘rish", title = "YouTube Video" }) => {
+const YouTubeModal = ({ videoId, buttonText = "Foydalanish uchun qo'llanma", title = "YouTube Video" }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);

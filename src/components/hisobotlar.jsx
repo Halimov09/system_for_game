@@ -34,7 +34,7 @@ const Hisobotlar = () => {
   return (
     <div className='maintool'>
     <div className="yout">
-      <YouTubeModal videoId="y4j7s_yDbpQ" buttonText="Videoni ko‘rish" />
+      <YouTubeModal videoId="y4j7s_yDbpQ" buttonText="Foydalanish uchun qo'llanma" />
     </div>
       <div className="hisobotlar-container">
         <h2 className="hisobotlar-title h2_toolbar">Hisobotlar</h2>

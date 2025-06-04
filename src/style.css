@@ -284,6 +284,9 @@ input{
     100% { transform: rotate(360deg); }
   }
   
+  .room-list{
+    width: 100% !important;
+  }
 
   .gaming{
     width: 100%;
@@ -305,6 +308,11 @@ input{
     position: absolute;
     top: 20px;
     right: 20px;
+  }
+
+.MuiSvgIcon-root{
+    color: white !important;
+    cursor: pointer;
   }
 
 .creategame_container{

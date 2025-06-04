@@ -47,7 +47,7 @@ const Bolimlar = () => {
 
   return (
     <div className='maintool'>
-      <YouTubeModal videoId="5G6jO9a4RmY" buttonText="Videoni ko‘rish" />
+      <YouTubeModal videoId="5G6jO9a4RmY" buttonText="Foydalanish uchun qo'llanma" />
       <div className="nav_maintool">
         <h2>Bo‘limlar</h2>
         <button onClick={() => navigate(`/CreateGame`)} className='btnall bolim_btn kirish_btn'>

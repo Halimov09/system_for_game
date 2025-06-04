@@ -75,6 +75,7 @@ const Honalar = () => {
     }));
   };
 
+
   // "Vip" tugmasi bosilganda session_type ni "VIP" qilib qaytarish
   const handleVipClick = () => {
     setFormSession((prevState) => ({
@@ -267,6 +268,8 @@ const Honalar = () => {
         }
       };
   
+      console.log(sessions);
+      
       // Dastlab chaqirish
       fetchRoomData();
   
@@ -276,6 +279,25 @@ const Honalar = () => {
       // Component unmount bo‘lganda intervalni tozalash
       return () => clearInterval(intervalId);
     }, [dispatch]);
+
+    useEffect(() => {
+  const fetchRoomData = async () => {
+    try {
+      const responses = await roomService.getRoom();
+      dispatch(getRoomSucces(responses.data));
+      
+      const responseSession = await roomSessionService.getRoomSes();
+      dispatch(getRoomSesSucces(responseSession.data));
+    } catch (error) {
+      toast.error("Hatolik yuz berdi");
+    }
+  };
+
+  fetchRoomData();
+  const intervalId = setInterval(fetchRoomData, 60000);
+  return () => clearInterval(intervalId);
+}, [dispatch]);
+
 
     const style = {
       position: 'absolute',
@@ -291,43 +313,65 @@ const Honalar = () => {
 
   return (
     <div className="maintool">
-      <YouTubeModal videoId="5G6jO9a4RmY" buttonText="Videoni ko‘rish" />
+      <YouTubeModal videoId="5G6jO9a4RmY" buttonText="Foydalanish uchun qo'llanma" />
       <div className="honalar-header">
         <h2 className="honalar-title">O'yinlar</h2>
-        <Accordion className="accordion">
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon className="iconw" />}
-            aria-controls="panel1-content"
-            id="panel1-header"
-          >
-            <Typography component="span" className='btnall'>O'yin qo'shish
-              <img src={plus} alt="" />
+        <div className="room-list">
+  <Accordion>
+  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+    <Typography sx={{ fontWeight: 'bold' }}>Joriy narhni ko‘rish</Typography>
+  </AccordionSummary>
+  <AccordionDetails>
+    {rooms?.map((room) => {
+      const relatedSession = Array.isArray(sessions)
+  ? sessions.find(
+      (session) => session.gaming_room.id === room.id && session.is_active
+    )
+  : null;
+
+
+      return (
+        <Accordion key={room.id}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography sx={{ width: '33%', flexShrink: 0 }}>{room.name}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>
+              {room.price_per_hour} so'm/soat
             </Typography>
+            {relatedSession && (
+              <Typography sx={{ marginLeft: 'auto', fontWeight: 'bold', color: 'green' }}>
+                Joriy narx: {relatedSession.current_price} so'm
+              </Typography>
+            )}
           </AccordionSummary>
-          <AccordionDetails className="accordion-details">
-            <Input 
-              label="Hona nomi"
-              name="name"
-              type="text"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            <Input 
-              label="Narxi (soatiga)"
-              name="price_per_hour"
-              type="number"
-              value={formData.price_per_hour}
-              onChange={handleChange}
-            />
-            <Button className="add_input"
-              variant="contained"
-              color="primary"
-              onClick={handleSubmit}
-            >
-              Saqlash
-            </Button>
+          <AccordionDetails>
+            {relatedSession ? (
+              <>
+                <p>Session turi: {relatedSession.session_type}</p>
+                <p style={{ marginTop: '10px' }}>
+                  Aktiv: {relatedSession.is_active ? 'Ha' : 'Yo‘q'}
+                </p>
+                <Button
+                  variant="contained"
+                  color="error"
+                  style={{ marginTop: '10px' }}
+                  onClick={() => stopHandle(relatedSession.id)}
+                >
+                  To‘xtatish
+                </Button>
+              </>
+            ) : (
+              <p>Session mavjud emas</p>
+            )}
           </AccordionDetails>
         </Accordion>
+      );
+    })}
+  </AccordionDetails>
+</Accordion>
+
+  
+        </div>
+
         <div className="card_room">
           <h2>Mavjud o'yinlar</h2>
             {rooms.map(item => (
@@ -350,6 +394,8 @@ const Honalar = () => {
                 <div class="room-content">
                   <h2 class="room-name">Nomi: {item.name}</h2>
                   <p class="room-price">Narxi soatiga:  {item.price_per_hour}
+                  </p>
+                  <p class="room-price">hozirgi narhi:  {item.current_price}
                   </p>
                   <p class="room-status occupied">{item.is_occupied && "Band qilingan" || "Band qilinmagan"              }</p>
                   <div class="room-category">
