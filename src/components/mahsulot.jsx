@@ -150,7 +150,7 @@ const Mahsulot = () => {
 
   return (
     <div className="maintool">
-      <YouTubeModal videoId="MPPw6xPuZjY" buttonText="Videoni ko‘rish" />
+      <YouTubeModal videoId="MPPw6xPuZjY" buttonText="Foydalanish uchun qo'llanma" />
       <h2 className="title">Mahsulotlar ro‘yxati</h2>
 
       <div className="product-wrapper">
