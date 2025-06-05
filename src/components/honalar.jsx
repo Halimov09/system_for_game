@@ -94,34 +94,42 @@ const Honalar = () => {
   };
 
   // for room
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const room = {
-      name: formData.name,
-      price_per_hour: formData.price_per_hour,
-      category: formData.category
-    };
-    
-    dispatch(postItemRoomStart())
-    try {
-      await roomService.PostRoom(room)
-      dispatch(postItemRoomSuccess())
-      const responses = await roomService.getRoom();
-      dispatch(getRoomSucces(responses.data));      
-      toast.success("Muvaffaqiyatlik yaratildi")
-    } catch (error) {
-      toast.error("Nimadur hato ketti")
-      dispatch(postItemRoomFailure())
-      navigate("/")
-      
-    }
-    setFormData({
-      name: '',
-      price_per_hour: '',
-      category: localStorage.getItem("selectedBarId")
-    })
-    // bu yerda formani yuborish funksiyasi yozildi
+
+  const [isLoadings, setIsLoading] = useState(false);
+
+
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true); // Loading holatini yoqish
+
+  const room = {
+    name: formData.name,
+    price_per_hour: formData.price_per_hour,
+    category: formData.category
   };
+
+  dispatch(postItemRoomStart());
+  try {
+    await roomService.PostRoom(room);
+    dispatch(postItemRoomSuccess());
+    const responses = await roomService.getRoom();
+    dispatch(getRoomSucces(responses.data));
+    toast.success("Muvaffaqiyatlik yaratildi");
+  } catch (error) {
+    toast.error("Nimadur hato ketti");
+    dispatch(postItemRoomFailure());
+    navigate("/");
+  } finally {
+    setIsLoading(false); // Tugagach, loading holatini o‘chirish
+  }
+
+  setFormData({
+    name: '',
+    price_per_hour: '',
+    category: localStorage.getItem("selectedBarId")
+  });
+};
+
 
   // for session
 
@@ -317,60 +325,97 @@ const Honalar = () => {
       <div className="honalar-header">
         <h2 className="honalar-title">O'yinlar</h2>
         <div className="room-list">
-  <Accordion>
-  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-    <Typography sx={{ fontWeight: 'bold' }}>Joriy narhni ko‘rish</Typography>
-  </AccordionSummary>
-  <AccordionDetails>
-    {rooms?.map((room) => {
-  const relatedSession = Array.isArray(sessions)
-  ? sessions.find(
-      (session) =>
-        session.is_active === true && // faqat active session
-        session.gaming_room &&        // session.gaming_room mavjudligini tekshirish
-        session.gaming_room.id === room.id
-    )
-  : null;
-
-
-  return (
-    <Accordion key={room.id}>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography sx={{ width: '33%', flexShrink: 0 }}>{room.name}</Typography>
-        <Typography sx={{ color: 'text.secondary' }}>
-          {room.price_per_hour} so'm/soat
-        </Typography>
-        {relatedSession && (
-          <Typography sx={{ marginLeft: 'auto', fontWeight: 'bold', color: 'green' }}>
-            Joriy narx: {relatedSession.current_price} so'm
-          </Typography>
-        )}
-      </AccordionSummary>
-      <AccordionDetails>
-        {relatedSession ? (
-          <>
-            <p>Session turi: {relatedSession.session_type}</p>
-            <p style={{ marginTop: '10px' }}>
-              Aktiv: {relatedSession.is_active ? 'Ha' : 'Yo‘q'}
-            </p>
+        <Accordion className="accordion">
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon className="iconw" />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            <Typography component="span" className='btnall'>O'yin qo'shish
+              <img src={plus} alt="" />
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails className="accordion-details">
+            <Input 
+              label="Hona nomi"
+              name="name"
+              type="text"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            <Input 
+              label="Narxi (soatiga)"
+              name="price_per_hour"
+              type="number"
+              value={formData.price_per_hour}
+              onChange={handleChange}
+            />
             <Button
+              className="add_input"
               variant="contained"
-              color="error"
-              style={{ marginTop: '10px' }}
-              onClick={() => stopHandle(relatedSession.id)}
+              color="primary"
+              onClick={handleSubmit}
+              disabled={isLoading} // Bosilganda disable bo‘ladi
             >
-              To‘xtatish
+              {isLoadings ? "Iltimos, kuting..." : "Saqlash"}
             </Button>
-          </>
-        ) : (
-          <p>Session mavjud emas</p>
-        )}
-      </AccordionDetails>
-    </Accordion>
-  );
-})}
-  </AccordionDetails>
-</Accordion>
+
+          </AccordionDetails>
+        </Accordion>
+        <Accordion style={{marginTop: "24px"}}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography sx={{ fontWeight: 'bold' }}>Joriy narhni ko‘rish</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        {rooms?.map((room) => {
+        const relatedSession = Array.isArray(sessions)
+          ? sessions.find(
+              (session) =>
+                session.is_active != false &&             // faqat aktiv sessiyalar
+                session.gaming_room &&      
+                session.current_price > 0 &&                // gaming_room mavjudligi
+                session.gaming_room.id === room.id       )
+          : null;
+
+        return (
+          <Accordion key={room.id}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography sx={{ width: '33%', flexShrink: 0 }}>{room.name}</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>
+                {room.price_per_hour} so'm/soat
+              </Typography>
+              {relatedSession && (
+                <Typography sx={{ marginLeft: 'auto', fontWeight: 'bold', color: 'green' }}>
+                  Joriy narx: {relatedSession.current_price} so'm
+                </Typography>
+              )}
+            </AccordionSummary>
+            <AccordionDetails>
+              {relatedSession ? (
+                <>
+                  <p>Session turi: {relatedSession.session_type}</p>
+                  <p style={{ marginTop: '10px' }}>
+                    Aktiv: {relatedSession.is_active ? 'Ha' : 'Yo‘q'}
+                  </p>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    style={{ marginTop: '10px' }}
+                    onClick={() => stopHandle(relatedSession.id)}
+                  >
+                    To‘xtatish
+                  </Button>
+                </>
+              ) : (
+                <p>Session mavjud emas</p>
+              )}
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
+
+        </AccordionDetails>
+        </Accordion>
 
   
         </div>
